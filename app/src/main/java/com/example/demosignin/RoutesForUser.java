@@ -119,16 +119,16 @@ public class RoutesForUser extends FragmentActivity implements OnMapReadyCallbac
         });
 
 
-        // mMap.getUiSettings().setZoomControlsEnabled(true);
-        // if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-        //  ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},LOCATION_REQUEST);
-        //  return;
-        // }
-        // mMap.setMyLocationEnabled(true);
+         mMap.getUiSettings().setZoomControlsEnabled(true);
+         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+         ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},LOCATION_REQUEST);
+         return;
+         }
+        mMap.setMyLocationEnabled(true);
 
     }
 
-    /* @SuppressLint("MissingPermission")
+     @SuppressLint("MissingPermission")
      @Override
      public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
          switch (requestCode){
@@ -139,7 +139,7 @@ public class RoutesForUser extends FragmentActivity implements OnMapReadyCallbac
                  break;
          }
      }
- */
+
     private String getRequestUrl(LatLng origin, LatLng dest) {
 //Value of origin
         String str_org = "origin="+origin.latitude+","+origin.longitude;
