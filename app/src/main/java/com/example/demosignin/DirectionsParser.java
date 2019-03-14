@@ -3,6 +3,8 @@ package com.example.demosignin;
 
 
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -27,7 +29,8 @@ public class DirectionsParser {
         JSONArray jRoutes = null;
         JSONArray jLegs = null;
         JSONArray jSteps = null;
-
+        String dist;
+        String distText;
         try {
 
             jRoutes = jObject.getJSONArray("routes");
@@ -35,6 +38,8 @@ public class DirectionsParser {
             // Loop for all routes
             for (int i = 0; i < jRoutes.length(); i++) {
                 jLegs = ((JSONObject) jRoutes.get(i)).getJSONArray("legs");
+
+
                 List path = new ArrayList<HashMap<String, String>>();
 
                 //Loop for all legs
@@ -58,6 +63,12 @@ public class DirectionsParser {
                     routes.add(path);
                 }
             }
+            JSONObject distfather = ((JSONObject) jLegs.get(0)).getJSONObject("distance");
+             dist= distfather.getString("text");
+
+            //distText = dist
+
+             Log.w("distance display",dist);
 
         } catch (JSONException e) {
             e.printStackTrace();

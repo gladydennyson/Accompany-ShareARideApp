@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -111,6 +113,9 @@ public class RoutesForUser extends FragmentActivity implements OnMapReadyCallbac
 
                 if (listPoints.size() == 2) {
                     String url = getRequestUrl(listPoints.get(0), listPoints.get(1));
+                    Log.w("points",listPoints.get(0).toString());
+                    Log.w("points",listPoints.get(1).toString());
+
                     TaskRequestDirections taskRequestDirections = new TaskRequestDirections();
                     taskRequestDirections.execute(url);
                 }
