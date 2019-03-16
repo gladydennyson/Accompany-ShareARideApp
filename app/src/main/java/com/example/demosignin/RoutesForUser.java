@@ -144,7 +144,7 @@ public class RoutesForUser extends FragmentActivity implements OnMapReadyCallbac
                  break;
          }
      }
-
+// step 1
     private String getRequestUrl(LatLng origin, LatLng dest) {
 //Value of origin
         String str_org = "origin="+origin.latitude+","+origin.longitude;
@@ -160,6 +160,8 @@ public class RoutesForUser extends FragmentActivity implements OnMapReadyCallbac
         return url;
 
     }
+
+    //step 2
 
     private String requestDirections( String reqUrl) throws IOException {
         String responseString = "";
@@ -243,6 +245,7 @@ public class RoutesForUser extends FragmentActivity implements OnMapReadyCallbac
                 DirectionsParser directionsParser = new DirectionsParser();
                 routes = directionsParser.parse(jsonObject);
 
+                Log.w("inside parse",routes.toString());
 
             } catch (JSONException e) {
                 e.printStackTrace();

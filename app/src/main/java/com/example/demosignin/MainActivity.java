@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                             FirebaseUser user = auth.getCurrentUser();
                             displayname = user.getDisplayName();
                             Toast.makeText(MainActivity.this, displayname.toString(), Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                            Intent intent = new Intent(MainActivity.this, MainPage.class);
                             startActivity(intent);
                         }
 
