@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "957873380329-01trkkgu7140j8musthe0ee69apkhciq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.demosignin",
+            "certificate_hash": "b11a2985b389ae3512c834875d56e72882c58101"
+          }
+        },
+        {
           "client_id": "957873380329-57gno6pfnsbmpo63tc3ibn96pp2dc66n.apps.googleusercontent.com",
           "client_type": 3
         }

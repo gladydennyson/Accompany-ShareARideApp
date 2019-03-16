@@ -58,9 +58,7 @@ public class Register extends AppCompatActivity {
                 else if(pass.equals("")){
                     password.setError("can't be blank");
                 }
-                else if(!user.matches("[A-Za-z0-9]+")){
-                    username.setError("only alphabet or number allowed");
-                }
+
                 else if(user.length()<5){
                     username.setError("at least 5 characters long");
                 }
