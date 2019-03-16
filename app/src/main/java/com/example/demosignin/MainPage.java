@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class MainPage extends AppCompatActivity implements LocationListener {
 
     final Context context = this;
@@ -24,6 +26,7 @@ public class MainPage extends AppCompatActivity implements LocationListener {
     private Button getLocation;
     private Button gotomap;
     TextView locationText;
+    TextView destlocationtext;
     LocationManager locationManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class MainPage extends AppCompatActivity implements LocationListener {
         button = (Button) findViewById(R.id.ghat);
         getLocation = (Button) findViewById(R.id.getLocationBtn) ;
         locationText = (TextView)findViewById(R.id.locationText);
+        destlocationtext = (TextView)findViewById(R.id.destlocationtext);
 
         gotomap = (Button)findViewById(R.id.getmap);
 
@@ -94,7 +98,18 @@ public class MainPage extends AppCompatActivity implements LocationListener {
         getLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                LatLng dest = new LatLng(19.0868058,72.9058244);
+                destlocationtext.setText("Ghatkopar Latitude: " + dest.latitude + "\n Ghatkopar Longitude: " + dest.longitude);
+
                 getLocation();
+
+
+
+
+
+
+
             }
         });
         gotomap.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +130,7 @@ public class MainPage extends AppCompatActivity implements LocationListener {
         catch(SecurityException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
