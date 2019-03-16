@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.demosignin.MainPage"
+    android:orientation="vertical"
+    android:gravity="center">
+
+
+    <Button
+        android:id="@+id/ghat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ghstkopar-Kurla" />
+
+
+    <Button
+        android:onClick="vidyavihar"
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Vidyavihar-Kurla" />
+
+    <Button
+        android:onClick="mulund stn"
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mulund-Mulund stn" />
+
+    <Button
+        android:id="@+id/getLocationBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="get Location" />
+
+    <Button
+        android:id="@+id/getmap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="goto map" />
+
+    <TextView
+        android:id="@+id/locationText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="" />
+
+
+</LinearLayout>
+
