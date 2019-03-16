@@ -69,9 +69,6 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
         }
 
-
-
-
         // add button listener
         button.setOnClickListener(new View.OnClickListener() {
 
@@ -168,13 +165,13 @@ public class MainPage extends AppCompatActivity implements LocationListener {
                 LatLng dest = new LatLng(19.0868058,72.9058244);
                 destlocationtext.setText("Ghatkopar Latitude: " + dest.latitude + "\n Ghatkopar Longitude: " + dest.longitude);
 
-                getLocation();
+               getLocation();
 
 
-                //CalculationByDistance(currentLat, currentLon, dest.latitude, dest.longitude);
+// get distance between two points
                 Location loc1 = new Location("");
-                loc1.setLatitude(19.0994779);
-                loc1.setLongitude(72.9145689);
+                loc1.setLatitude(currentLat);
+                loc1.setLongitude(currentLon);
 
                 Location loc2 = new Location("");
                 loc2.setLatitude(dest.latitude);
@@ -198,40 +195,11 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
     }
 
-// get distance between two points - formula method
-
-    public void CalculationByDistance(double currLat, double currLon, double destlat, double destlon) {
-        int Radius = 6371;// radius of earth in Km
-        double lat1 = currLat;
-        double lat2 = destlat;
-        double lon1 = currLon;
-        double lon2 = destlon;
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-                + Math.cos(Math.toRadians(lat1))
-                * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon / 2)
-                * Math.sin(dLon / 2);
-        double c = 2 * Math.asin(Math.sqrt(a));
-        double valueResult = Radius * c;
-        double km = valueResult / 1;
-        DecimalFormat newFormat = new DecimalFormat("####");
-        int kmInDec = Integer.valueOf(newFormat.format(km));
-        double meter = valueResult % 1000;
-        int meterInDec = Integer.valueOf(newFormat.format(meter));
-        Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec
-                + " Meter   " + meterInDec);
-
-        distance.setText("Distance: " + Radius * c);
-
-    }
-
-
-
     void getLocation() {
         try {
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 5, (LocationListener) this);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 5, (LocationListener) this);
+
         }
         catch(SecurityException e) {
             e.printStackTrace();
