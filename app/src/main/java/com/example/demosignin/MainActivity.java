@@ -49,6 +49,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         auth = FirebaseAuth.getInstance();
+        if(auth.getCurrentUser() != null){
+            //that means user is already logged in
+            //so close this activity
+            finish();
+
+            //and open profile activity
+            startActivity(new Intent(getApplicationContext(), MainPage.class));
+        }
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -137,7 +146,9 @@ public class MainActivity extends AppCompatActivity {
                                                 Intent intent = new Intent(MainActivity.this, MainPage.class);
                                                 startActivity(intent);
                                             } else {
-                                                Toast.makeText(MainActivity.this, "username already exists", Toast.LENGTH_LONG).show();
+                                                Intent intent = new Intent(MainActivity.this, MainPage.class);
+                                                startActivity(intent);
+                                               // Toast.makeText(MainActivity.this, "username already exists", Toast.LENGTH_LONG).show();
                                             }
 
                                         } catch (JSONException e) {
@@ -159,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                             RequestQueue rQueue = Volley.newRequestQueue(MainActivity.this);
                             rQueue.add(request);
 
+
                         }
 
                         else {
@@ -167,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         // ...
+
                     }
                 });
     }
