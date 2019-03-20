@@ -37,12 +37,14 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
     FirebaseAuth Auth;
     final Context context = this;
-    private Button button;
+    private Button ghatButton;
     private Button getLocation;
     private Button gotomap;
+
     TextView locationText;
     TextView destlocationtext;
     TextView distance;
+    TextView example;
     LocationManager locationManager;
 
     public double currentLat;
@@ -55,11 +57,12 @@ public class MainPage extends AppCompatActivity implements LocationListener {
         setContentView(R.layout.mainpage);
 
 
-        button = (Button) findViewById(R.id.ghat);
+        ghatButton = (Button) findViewById(R.id.ghat);
         getLocation = (Button) findViewById(R.id.getLocationBtn) ;
         locationText = (TextView)findViewById(R.id.locationText);
         destlocationtext = (TextView)findViewById(R.id.destlocationtext);
         distance = (TextView)findViewById(R.id.distance);
+        example = (TextView)findViewById(R.id.example);
         gotomap = (Button)findViewById(R.id.getmap);
 
 
@@ -70,10 +73,14 @@ public class MainPage extends AppCompatActivity implements LocationListener {
         }
 
         // add button listener
-        button.setOnClickListener(new View.OnClickListener() {
+        ghatButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
+
+
+
+
 
 
                 // custom dialog
@@ -88,8 +95,17 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
                 Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
                 Button gochatroom = (Button) dialog.findViewById(R.id.gochatroom);
+                Button joingroup = (Button)dialog.findViewById(R.id.joingroup);
                // startActivity(new Intent(ProfileActivity.this, Login.class));
 
+                joingroup.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //  startActivity(new Intent(MainPage.this, GroupChat.class));
+                        Intent myIntent = new Intent(MainPage.this, GroupChat.class);
+                        startActivity(myIntent);
+                    }
+                });
                 // if button is clicked, close the custom dialog
                 dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -97,6 +113,9 @@ public class MainPage extends AppCompatActivity implements LocationListener {
                         dialog.dismiss();
                     }
                 });
+
+
+
                 gochatroom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -153,7 +172,10 @@ public class MainPage extends AppCompatActivity implements LocationListener {
                         //startActivity(new Intent(MainPage.this, Login.class));
                     }
                 });
-                dialog.show();
+
+
+
+             dialog.show();
             }
         });
 
@@ -193,6 +215,10 @@ public class MainPage extends AppCompatActivity implements LocationListener {
             }
         });
 
+
+
+
+
     }
 
     void getLocation() {
@@ -228,4 +254,7 @@ public class MainPage extends AppCompatActivity implements LocationListener {
     public void onProviderEnabled(String provider) {
 
     }
+
+
+
 }

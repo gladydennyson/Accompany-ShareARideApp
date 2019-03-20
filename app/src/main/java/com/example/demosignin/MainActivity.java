@@ -48,7 +48,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        auth = FirebaseAuth.getInstance();
+       auth = FirebaseAuth.getInstance();
+
+
         if(auth.getCurrentUser() != null){
             //that means user is already logged in
             //so close this activity
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
             //and open profile activity
             startActivity(new Intent(getApplicationContext(), MainPage.class));
         }
+
 
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -85,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         Log.w("Intent data : ",data.getExtras().toString());
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == 1) {
+
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 // Google Sign In was successful, authenticate with Firebase

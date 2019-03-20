@@ -4,9 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,7 +31,7 @@ public class Users extends AppCompatActivity {
     ArrayList<String> al = new ArrayList<>();
     int totalUsers = 0;
     ProgressDialog pd;
-
+    Button joingroup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,9 @@ public class Users extends AppCompatActivity {
 
         usersList = (ListView)findViewById(R.id.usersList);
         noUsersText = (TextView)findViewById(R.id.noUsersText);
+       // joingroup = (Button)findViewById(R.id.joingroup);
+
+
 
         pd = new ProgressDialog(Users.this);
         pd.setMessage("Loading...");
@@ -64,8 +69,21 @@ public class Users extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 UserDetails.chatWith = al.get(position);
                 startActivity(new Intent(Users.this, Chat.class));
+
             }
         });
+
+       /* joingroup.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+                Log.w("join group","join");
+                //Intent activityChangeIntent = new Intent(Users.this, Groupchat.class);
+
+                //startActivity(activityChangeIntent);
+            }
+
+        });*/
+
     }
 
     public void doOnSuccess(String s){
