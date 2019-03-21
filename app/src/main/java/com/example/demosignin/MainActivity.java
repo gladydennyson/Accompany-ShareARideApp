@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
     GoogleSignInClient mGoogleSignInClient;
     SignInButton signInButton;
-    String displayname,pass;
+    String displayname,pass,status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, displayname.toString(), Toast.LENGTH_SHORT).show();
 
                             pass="thispwd";
+                            status = "offline";
                             final ProgressDialog pd = new ProgressDialog(MainActivity.this);
                             pd.setMessage("Loading...");
                             pd.show();
@@ -136,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if(s.equals("null")) {
                                         reference.child(displayname).child("password").setValue(pass);
+                                        reference.child(displayname).child("status").setValue(status);
                                         Toast.makeText(MainActivity.this, "registration successful", Toast.LENGTH_LONG).show();
                                         Intent intent = new Intent(MainActivity.this, MainPage.class);
                                         startActivity(intent);
@@ -146,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
                                             if (!obj.has(displayname)) {
                                                 reference.child(displayname).child("password").setValue(pass);
+                                                reference.child(displayname).child("status").setValue(status);
                                                 Toast.makeText(MainActivity.this, "registration successful", Toast.LENGTH_LONG).show();
                                                 Intent intent = new Intent(MainActivity.this, MainPage.class);
                                                 startActivity(intent);

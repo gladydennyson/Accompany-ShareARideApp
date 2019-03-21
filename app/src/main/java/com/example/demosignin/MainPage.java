@@ -24,9 +24,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.firebase.client.Firebase;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +39,8 @@ import java.text.DecimalFormat;
 public class MainPage extends AppCompatActivity implements LocationListener {
 
     FirebaseAuth Auth;
+    private DatabaseReference dataref;
+    private String name;
     final Context context = this;
     private Button ghatButton;
     private Button getLocation;
@@ -99,11 +104,24 @@ public class MainPage extends AppCompatActivity implements LocationListener {
                // startActivity(new Intent(ProfileActivity.this, Login.class));
 
                 joingroup.setOnClickListener(new View.OnClickListener() {
+
+
+
+
                     @Override
                     public void onClick(View v) {
+                        final String status = "online";
+                        final String statusget;
+                        Auth = FirebaseAuth.getInstance();
+                        name = Auth.getCurrentUser().getDisplayName();
+//                        FirebaseDatabase.getInstance().getReference().child("users").child(name).child("status").push().setValue(status);
+                        Firebase reference = new Firebase("https://costoptimized.firebaseio.com/users");
+                     //  statusget = reference.child(name).child("status");
+                        reference.child(name).child("status").setValue(status);
                         //  startActivity(new Intent(MainPage.this, GroupChat.class));
-                        Intent myIntent = new Intent(MainPage.this, GroupChat.class);
-                        startActivity(myIntent);
+//                        Intent myIntent = new Intent(MainPage.this, GroupPage.class);
+//                        startActivity(myIntent);
+                        startActivity(new Intent(MainPage.this, UserStatus.class));
                     }
                 });
                 // if button is clicked, close the custom dialog
