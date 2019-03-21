@@ -24,7 +24,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,6 +44,7 @@ public class MainPage extends AppCompatActivity implements LocationListener {
     FirebaseAuth Auth;
     private DatabaseReference dataref;
     private String name;
+    private String statusget;
     final Context context = this;
     private Button ghatButton;
     private Button getLocation;
@@ -111,17 +115,47 @@ public class MainPage extends AppCompatActivity implements LocationListener {
                     @Override
                     public void onClick(View v) {
                         final String status = "online";
-                        final String statusget;
+
                         Auth = FirebaseAuth.getInstance();
                         name = Auth.getCurrentUser().getDisplayName();
-//                        FirebaseDatabase.getInstance().getReference().child("users").child(name).child("status").push().setValue(status);
-                        Firebase reference = new Firebase("https://costoptimized.firebaseio.com/users");
-                     //  statusget = reference.child(name).child("status");
-                        reference.child(name).child("status").setValue(status);
-                        //  startActivity(new Intent(MainPage.this, GroupChat.class));
-//                        Intent myIntent = new Intent(MainPage.this, GroupPage.class);
+//
 //                        startActivity(myIntent);
-                        startActivity(new Intent(MainPage.this, UserStatus.class));
+                       // startActivity(new Intent(MainPage.this, UserStatus.class));
+
+
+                        final Firebase reference = new Firebase("https://costoptimized.firebaseio.com/users");
+                        reference.child(name).child("status").addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot snapshot) {
+
+                                    if (snapshot.getValue() != null) {
+                                       statusget = snapshot.getValue().toString();
+                                       Log.w("status of user", statusget);
+
+                                       //setting to online only if it is offline
+                                       if (snapshot.getValue().equals("offline")){
+                                           Log.w("hello","helo");
+                                            reference.child(name).child("status").setValue(status);
+                                           startActivity(new Intent(MainPage.this, UserStatus.class));
+                                       }
+                                       //if not, as of now do nothing, go to the userstatus page,
+                                       // here we have to tell thst distance is more than 2km
+                                       else{
+                                           Log.w("status","did not set");
+                                           startActivity(new Intent(MainPage.this, UserStatus.class));
+                                       }
+
+                                    } else {
+                                        Log.w("TAG", " it's null.");
+                                    }
+
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+                                Log.e("onCancelled", " cancelled");
+                            }
+                        });
                     }
                 });
                 // if button is clicked, close the custom dialog

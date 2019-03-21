@@ -18,95 +18,57 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
+//This page is to show the online users
 public class UserStatus extends AppCompatActivity {
     ListView usersList;
     TextView noUsersText;
     ArrayList<String> al = new ArrayList<>();
-    int totalUsers = 0;
-    ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
-
+        setContentView(R.layout.activity_user_status);
         usersList = (ListView)findViewById(R.id.usersList);
         noUsersText = (TextView)findViewById(R.id.noUsersText);
 
-
-        pd = new ProgressDialog(UserStatus.this);
-        pd.setMessage("Loading...");
-        pd.show();
-
-        String url = "https://costoptimized.firebaseio.com/users.json";
-
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("users");
+        Log.w("reference",reference.toString());
+        //searching based on the status=nline
+        Query query = reference.orderByChild("status").equalTo("online");
+//
+//
+        //if online displaying
+       query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onResponse(String s) {
-                doOnSuccess(s);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Long noofonline = dataSnapshot.getChildrenCount();
+                String vals = dataSnapshot.toString();
+                Log.w("values",dataSnapshot.toString());
+                al.add(vals);
+                usersList.setAdapter(new ArrayAdapter<String>(UserStatus.this, android.R.layout.simple_list_item_1, al));
+                usersList.setVisibility(View.VISIBLE);
+                noUsersText.setText("No of users online"+noofonline);
+                noUsersText.setVisibility(View.VISIBLE);
             }
-        },new Response.ErrorListener(){
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                System.out.println("" + volleyError);
-            }
+
+            public void onCancelled(DatabaseError databaseError) { }
         });
 
-        RequestQueue rQueue = Volley.newRequestQueue(UserStatus.this);
-        rQueue.add(request);
-
-
-       /* joingroup.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-                Log.w("join group","join");
-                //Intent activityChangeIntent = new Intent(Users.this, Groupchat.class);
-
-                //startActivity(activityChangeIntent);
-            }
-
-        });*/
-
     }
 
-    public void doOnSuccess(String s){
-        try {
-            JSONObject obj = new JSONObject(s);
 
-            Iterator i = obj.keys();
-            String key = "";
-
-            while(i.hasNext()){
-                key = i.next().toString();
-
-                if(!key.equals(UserDetails.username)) {
-                    al.add(key);
-                }
-
-                totalUsers++;
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        if(totalUsers <=1){
-            noUsersText.setVisibility(View.VISIBLE);
-            usersList.setVisibility(View.GONE);
-        }
-        else{
-            noUsersText.setVisibility(View.GONE);
-            usersList.setVisibility(View.VISIBLE);
-            usersList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, al));
-        }
-
-        pd.dismiss();
-    }
 }
