@@ -65,7 +65,7 @@ public class GroupPage extends AppCompatActivity {
                                                    DatabaseReference databaseReference) {
                                  uniqueKey = databaseReference.getKey();
                                 Log.w("key",uniqueKey);
-                                displaystatus();
+
                             }
                         });
 
@@ -79,11 +79,12 @@ public class GroupPage extends AppCompatActivity {
                         .push().setValue(chatmsg); */
                 // Clear the input
 
-
+                displaystatus();
 
             }
 
         });
+        //displaystatus();
 
 
         if(FirebaseAuth.getInstance().getCurrentUser() == null) {
@@ -105,7 +106,8 @@ public class GroupPage extends AppCompatActivity {
                     .show();
 
             // Load chat room contents
-            //displayChatMessages();
+            displaystatus();
+
 
         }
 
@@ -193,15 +195,24 @@ public class GroupPage extends AppCompatActivity {
 
        //TextView listofdata = (TextView) findViewById(R.id.listofdata);
         //mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference().child("groups").child("ghat_rides").child(uniqueKey);
-        Log.w("key to show",uniqueKey);
-        FirebaseDatabase.getInstance().getReference().child("groups").child("ghat_rides").child(uniqueKey).addValueEventListener(new ValueEventListener() {
+        //Log.w("key to show",uniqueKey);
+        FirebaseDatabase.getInstance().getReference().child("groups").child("ghat_rides").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
+
             public void onDataChange(DataSnapshot snapshot) {
-               showstatus.setText(snapshot.getValue().toString());
+                if(snapshot.exists()){
+                    showstatus.setText(snapshot.getValue().toString());
+                }
+                else {
+                    Toast.makeText(GroupPage.this,"No rides yet",Toast.LENGTH_SHORT).show();
+                }
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                Log.w("error","No value to show");
             }
+
         });
 
 
