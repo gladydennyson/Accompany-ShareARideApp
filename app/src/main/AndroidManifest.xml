@@ -15,6 +15,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".GroupPage"></activity>
         <activity android:name=".GroupChat" />
+        <activity android:name=".Partner_Chat" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,6 +38,7 @@
         <activity android:name=".Chat" />
         <activity android:name=".MainPage" />
         <activity android:name=".UserStatus" />
+
     </application>
 
 </manifest>

@@ -41,7 +41,8 @@ public class UserStatus extends AppCompatActivity {
     TextView noUsersText;
     Button findpartner;
     ArrayList<String> al = new ArrayList<>();
-
+    public DatabaseReference databaseReference1,databaseReference2;
+    public String displayname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,13 +51,15 @@ public class UserStatus extends AppCompatActivity {
         noUsersText = (TextView)findViewById(R.id.noUsersText);
         findpartner = (Button)findViewById(R.id.findpartner);
 
+       //in FirebaseDatabase.getInstance().setPersistenceEnabled(false);
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("users");
         Log.w("reference",reference.toString());
         //searching based on the status=nline
-        Query query = reference.orderByChild("status").equalTo("online");
+        final Query query = reference.orderByChild("status").equalTo("online");
 //
-//
+        //Log.w("online users",query.toString());
         //if online displaying
        query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -80,19 +83,22 @@ public class UserStatus extends AppCompatActivity {
             public void onClick(View v) {
                 auth = FirebaseAuth.getInstance();
                 final FirebaseUser userf = auth.getCurrentUser();
-                final String displayname = userf.getDisplayName();
+                 displayname = userf.getDisplayName();
 
-                final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("groups").child("ghat_rides").child("partnerride1");
-                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                databaseReference1 = FirebaseDatabase.getInstance().getReference("groups").child("ghat_rides").child("partnerride1");
+               // databaseReference2 = FirebaseDatabase.getInstance().getReference().child("groups").child("ghat_rides");
+
+                databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Long count = dataSnapshot.getChildrenCount();
                         if (count<=1){
-                            databaseReference.push().setValue(displayname);
+                            databaseReference1.push().child("name").setValue(displayname);
                             Log.w("Db","Inserted");
                         }
-                        else{
-                            Toast.makeText(UserStatus.this,"Already 2 have created a ride, find a partner",Toast.LENGTH_LONG).show();
+                        else {
+                            chechdb();
                         }
+
                     }
                     public void onCancelled(DatabaseError databaseError) { }
                 });
@@ -102,5 +108,34 @@ public class UserStatus extends AppCompatActivity {
         });
     }
 
+
+    public void chechdb(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("groups").child("ghat_rides").child("partnerride1");
+        Log.w("reference",ref.toString());
+        final Query group = ref.orderByChild("name").equalTo(displayname);
+        Log.w("query",group.toString());
+        group.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                        if (dataSnapshot.exists()){
+                                            String vals = dataSnapshot.toString();
+                                            Log.w("values",dataSnapshot.toString());
+                                            // Log.w("Inside this","yay");
+                                             startActivity(new Intent(UserStatus.this, Partner_Chat.class));
+                                        }
+
+                                        else{
+                                            Toast.makeText(UserStatus.this,"Waiting for a partner",Toast.LENGTH_SHORT).show();
+                                        }
+                                       // Log.w("Inside this","yay");
+                                       //  startActivity(new Intent(UserStatus.this, Partner_Chat.class));
+
+                                    }
+
+                                    public void onCancelled(DatabaseError databaseError) { }
+                                });
+    }
 
 }
