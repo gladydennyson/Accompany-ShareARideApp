@@ -24,7 +24,8 @@
         android:background="@color/com_facebook_blue"
         android:text="Find me a partner"/>
 
-
-
-
+<ListView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/grid"></ListView>
 </LinearLayout>
