@@ -53,12 +53,15 @@ public class MainPage extends AppCompatActivity implements LocationListener {
     TextView locationText;
     TextView destlocationtext;
     TextView distance;
-    TextView example;
+    TextView number;
     LocationManager locationManager;
 
     public double currentLat;
     public double currentLon;
     Location loc1, loc2;
+
+    int count = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +74,46 @@ public class MainPage extends AppCompatActivity implements LocationListener {
         locationText = (TextView)findViewById(R.id.locationText);
         destlocationtext = (TextView)findViewById(R.id.destlocationtext);
         distance = (TextView)findViewById(R.id.distance);
-        example = (TextView)findViewById(R.id.example);
         gotomap = (Button)findViewById(R.id.getmap);
+        number = (TextView)findViewById(R.id.number);
+
+
+        Thread t = new Thread(){
+            @Override
+            public void run(){
+                while (!isInterrupted()){
+                    try{
+                        Thread.sleep(1000);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                                count++;
+                                LatLng dest = new LatLng(19.0868058,72.9058244);
+                                getLocation();
+                                loc1 = new Location("");
+                                loc1.setLatitude(currentLat);
+                                loc1.setLongitude(currentLon);
+
+                                loc2 = new Location("");
+                                loc2.setLatitude(dest.latitude);
+                                loc2.setLongitude(dest.longitude);
+
+
+                                float distanceInMeters = loc1.distanceTo(loc2);
+
+                                number.setText(String.valueOf(distanceInMeters));
+                            }
+                        });
+
+                    } catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        };
+        t.start();
 
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -243,11 +284,11 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
 
 // get distance between two points
-                Location loc1 = new Location("");
+                loc1 = new Location("");
                 loc1.setLatitude(currentLat);
                 loc1.setLongitude(currentLon);
 
-                Location loc2 = new Location("");
+                loc2 = new Location("");
                 loc2.setLatitude(dest.latitude);
                 loc2.setLongitude(dest.longitude);
 

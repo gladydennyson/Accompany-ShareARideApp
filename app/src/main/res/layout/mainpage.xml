@@ -8,6 +8,11 @@
     android:orientation="vertical"
     android:gravity="center">
 
+    <TextView
+        android:id="@+id/number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="" />
 
     <Button
         android:id="@+id/ghat"
@@ -27,11 +32,6 @@
         android:layout_height="wrap_content"
         android:text="goto map" />
 
-    <TextView
-        android:id="@+id/example"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="" />
 
     <TextView
         android:id="@+id/locationText"
