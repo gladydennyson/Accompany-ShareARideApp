@@ -40,7 +40,7 @@ public class UserStatus extends AppCompatActivity {
     FirebaseAuth auth;
     ListView usersList,grid;
     TextView noUsersText;
-    Button findpartner;
+    Button findpartner,matchwithpartner;
     ArrayList<String> al = new ArrayList<>();
     ArrayList<String> ride = new ArrayList<>();
     ArrayList<String> rideNames = new ArrayList<>();
@@ -54,7 +54,8 @@ public class UserStatus extends AppCompatActivity {
         usersList = (ListView)findViewById(R.id.usersList);
         noUsersText = (TextView)findViewById(R.id.noUsersText);
         findpartner = (Button)findViewById(R.id.findpartner);
-        grid = (ListView)findViewById(R.id.grid);
+        matchwithpartner = (Button)findViewById(R.id.matchwithpartner);
+
        //in FirebaseDatabase.getInstance().setPersistenceEnabled(false);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -84,70 +85,6 @@ public class UserStatus extends AppCompatActivity {
 
             public void onCancelled(DatabaseError databaseError) { }
         });
-        auth = FirebaseAuth.getInstance();
-        final FirebaseUser userf = auth.getCurrentUser();
-        displayname = userf.getDisplayName();
-        databaseReference1 = FirebaseDatabase.getInstance().getReference("groups").child("ghat_rides").child("partnerride1");
-        databaseReference1.addValueEventListener(new ValueEventListener() {
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                //Long count = dataSnapshot.getChildrenCount();
-                for(DataSnapshot datas: dataSnapshot.getChildren()){
-                   Object value = datas.getValue();
-                   rideNames.add(value.toString());
-                    ride.add(datas.toString());
-
-                   Log.w("inner",value.toString());
-                   Log.w("Datas",datas.toString());
-
-
-                    //grid.setAdapter(new ArrayAdapter<String>(UserStatus.this, android.R.layout.simple_list_item_1, ride));
-                }
-                   itemCount = ride.size();
-                    String no = Integer.toString(itemCount);
-                    Log.w("Number",no);
-
-
-                }
-                for (int i = 1; i < itemCount; i++){
-
-
-                    Log.w(" element",ride.get(i));
-                    Log.w(" names",rideNames.get(0));
-
-                    Log.w("here is ur name",displayname);
-                    if (rideNames.get(i).contains(displayname)){
-                        Log.w("helo","yay");
-                    }
-                    Boolean doesitcontainfirst = rideNames.get(i-1).contains(displayname);
-                    Boolean doesitcontainsecond = rideNames.get(i).contains(displayname);
-
-
-                    if(itemCount % 2 == 0){
-
-                        if (ride.get(i-1)!=null && ride.get(i)!=null && (doesitcontainfirst||doesitcontainsecond))
-                        {
-
-                                  Log.w("present","yes");
-
-                        }
-                        i = i+1;
-                    }
-                    else {
-
-                        Toast.makeText(UserStatus.this, "Wait for partner", Toast.LENGTH_SHORT).show();
-
-                    }
-
-
-
-
-                }
-            }
-
-            public void onCancelled(DatabaseError databaseError) { }
-        });
-
 
 
 
@@ -176,6 +113,64 @@ public class UserStatus extends AppCompatActivity {
                     }
                     public void onCancelled(DatabaseError databaseError) { }
                 });
+
+
+            }
+        });
+
+
+
+        matchwithpartner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                auth = FirebaseAuth.getInstance();
+                final FirebaseUser userf = auth.getCurrentUser();
+                displayname = userf.getDisplayName();
+                databaseReference1 = FirebaseDatabase.getInstance().getReference("groups").child("ghat_rides").child("partnerride1");
+                databaseReference1.addValueEventListener(new ValueEventListener() {
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()){
+                            Long noofpeople = dataSnapshot.getChildrenCount();
+
+                            if (noofpeople%2==0){
+                                for(DataSnapshot datas: dataSnapshot.getChildren()) {
+                                    Object value = datas.getValue();
+                                    rideNames.add(value.toString());
+
+                                    itemCount = rideNames.size();
+
+
+                                }
+                                    for (int i = 1; i < itemCount; i=i+2)
+                                    {
+                                        if(rideNames.get(i-1).contains(displayname)|| rideNames.get(i).contains(displayname)){
+                                            startActivity(new Intent(UserStatus.this, Partner_Chat.class));
+                                        }
+                                        else {
+                                            Log.w("you","fuck off");
+                                        }
+
+                                    }
+
+
+                            }
+                            else {
+                                Toast.makeText(UserStatus.this, "Wait for partner", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        }
+
+
+                    }
+
+                    public void onCancelled(DatabaseError databaseError) { }
+                });
+
+
+
+
 
 
             }
