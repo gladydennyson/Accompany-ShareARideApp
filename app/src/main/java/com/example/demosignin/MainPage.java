@@ -59,7 +59,7 @@ public class MainPage extends AppCompatActivity implements LocationListener {
     public double currentLat;
     public double currentLon;
     Location loc1, loc2;
-
+    boolean userdistance = false;
     int count = 0;
 
 
@@ -101,7 +101,12 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
 
                                 float distanceInMeters = loc1.distanceTo(loc2);
-
+                                if(distanceInMeters<=12000){
+                                    userdistance = true;
+                                }
+                                else{
+                                    userdistance = false;
+                                }
                                 number.setText(String.valueOf(distanceInMeters));
                             }
                         });
@@ -155,13 +160,17 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
                     @Override
                     public void onClick(View v) {
+
+                    if (userdistance== true)
+                    {
+
                         final String status = "online";
 
                         Auth = FirebaseAuth.getInstance();
                         name = Auth.getCurrentUser().getDisplayName();
 //
 //                        startActivity(myIntent);
-                       // startActivity(new Intent(MainPage.this, UserStatus.class));
+                        // startActivity(new Intent(MainPage.this, UserStatus.class));
 
 
                         final Firebase reference = new Firebase("https://costoptimized.firebaseio.com/users");
@@ -169,26 +178,26 @@ public class MainPage extends AppCompatActivity implements LocationListener {
                             @Override
                             public void onDataChange(DataSnapshot snapshot) {
 
-                                    if (snapshot.getValue() != null) {
-                                       statusget = snapshot.getValue().toString();
-                                       Log.w("status of user", statusget);
+                                if (snapshot.getValue() != null) {
+                                    statusget = snapshot.getValue().toString();
+                                    Log.w("status of user", statusget);
 
-                                       //setting to online only if it is offline
-                                       if (snapshot.getValue().equals("offline")){
-                                           Log.w("hello","helo");
-                                            reference.child(name).child("status").setValue(status);
-                                           startActivity(new Intent(MainPage.this, UserStatus.class));
-                                       }
-                                       //if not, as of now do nothing, go to the userstatus page,
-                                       // here we have to tell thst distance is more than 2km
-                                       else{
-                                           Log.w("status","did not set");
-                                           startActivity(new Intent(MainPage.this, UserStatus.class));
-                                       }
-
-                                    } else {
-                                        Log.w("TAG", " it's null.");
+                                    //setting to online only if it is offline
+                                    if (snapshot.getValue().equals("offline")) {
+                                        Log.w("hello", "helo");
+                                        reference.child(name).child("status").setValue(status);
+                                        startActivity(new Intent(MainPage.this, UserStatus.class));
                                     }
+                                    //if not, as of now do nothing, go to the userstatus page,
+                                    // here we have to tell thst distance is more than 2km
+                                    else {
+                                        Log.w("status", "did not set");
+                                        startActivity(new Intent(MainPage.this, UserStatus.class));
+                                    }
+
+                                } else {
+                                    Log.w("TAG", " it's null.");
+                                }
 
                             }
 
@@ -197,6 +206,13 @@ public class MainPage extends AppCompatActivity implements LocationListener {
                                 Log.e("onCancelled", " cancelled");
                             }
                         });
+
+
+                    }
+                    else{
+                            dialog.dismiss();
+                        }
+
                     }
                 });
                 // if button is clicked, close the custom dialog
