@@ -46,6 +46,10 @@ public class UserStatus extends AppCompatActivity {
     ArrayList<String> rideNames = new ArrayList<>();
     public DatabaseReference databaseReference1,databaseReference2;
     public int itemCount;
+
+    public int dbid_counter;
+    public int userID;
+
     public String displayname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,7 @@ public class UserStatus extends AppCompatActivity {
         usersList = (ListView)findViewById(R.id.usersList);
         noUsersText = (TextView)findViewById(R.id.noUsersText);
         findpartner = (Button)findViewById(R.id.findpartner);
-        matchwithpartner = (Button)findViewById(R.id.matchwithpartner);
+        //matchwithpartner = (Button)findViewById(R.id.matchwithpartner);
 
        //in FirebaseDatabase.getInstance().setPersistenceEnabled(false);
 
@@ -98,73 +102,39 @@ public class UserStatus extends AppCompatActivity {
                 final FirebaseUser userf = auth.getCurrentUser();
                  displayname = userf.getDisplayName();
 
-                databaseReference1 = FirebaseDatabase.getInstance().getReference("groups").child("ghat_rides").child("partnerride1");
+//                databaseReference1 = FirebaseDatabase.getInstance().getReference("groups").child("ghat_rides").child("partnerride1");
                // databaseReference2 = FirebaseDatabase.getInstance().getReference().child("groups").child("ghat_rides");
+
+                databaseReference1 = FirebaseDatabase.getInstance().getReference("groups").child("Ghat").child("dbid");
+                databaseReference2 = FirebaseDatabase.getInstance().getReference("groups").child("Ghat");
+
 
                 databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Long count = dataSnapshot.getChildrenCount();
 
-                            databaseReference1.push().child("name").setValue(displayname);
-                            Log.w("Db","Inserted");
+
+                        //Log.w("Db","Inserted");
+                        String value = dataSnapshot.getValue().toString();
+                        dbid_counter = Integer.parseInt(value);
+                        userID = dbid_counter;
+                        Log.w("reading",value);
+                        databaseReference1.setValue(dbid_counter+1);
+                        String user=String.valueOf(userID);
+                        Log.w("counter",user);
 
 
 
-                    }
-                    public void onCancelled(DatabaseError databaseError) { }
-                });
+                        String key = databaseReference2.push().getKey();
+                        databaseReference2.child(key).child("name").setValue(displayname);
+                        databaseReference2.child(key).child("userID").setValue(userID);
 
 
-            }
-        });
-
-
-
-        matchwithpartner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                auth = FirebaseAuth.getInstance();
-                final FirebaseUser userf = auth.getCurrentUser();
-                displayname = userf.getDisplayName();
-                databaseReference1 = FirebaseDatabase.getInstance().getReference("groups").child("ghat_rides").child("partnerride1");
-                databaseReference1.addValueEventListener(new ValueEventListener() {
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()){
-                            Long noofpeople = dataSnapshot.getChildrenCount();
-
-                            if (noofpeople%2==0){
-                                for(DataSnapshot datas: dataSnapshot.getChildren()) {
-                                    Object value = datas.getValue();
-                                    rideNames.add(value.toString());
-
-                                    itemCount = rideNames.size();
-
-
-                                }
-                                    for (int i = 1; i < itemCount; i=i+2)
-                                    {
-                                        if(rideNames.get(i-1).contains(displayname)|| rideNames.get(i).contains(displayname)){
-                                            startActivity(new Intent(UserStatus.this, Partner_Chat.class));
-                                        }
-                                        else {
-                                            Log.w("you","fuck off");
-                                        }
-
-                                    }
-
-
-                            }
-                            else {
-                                Toast.makeText(UserStatus.this, "Wait for partner", Toast.LENGTH_SHORT).show();
-
-                            }
+                        if(userID%2==1){
+                            Log.w("odd user!",user);
 
                         }
-
-
                     }
-
                     public void onCancelled(DatabaseError databaseError) { }
                 });
 
@@ -175,6 +145,67 @@ public class UserStatus extends AppCompatActivity {
 
             }
         });
+
+
+
+//        matchwithpartner.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                auth = FirebaseAuth.getInstance();
+//                final FirebaseUser userf = auth.getCurrentUser();
+//                displayname = userf.getDisplayName();
+//                databaseReference1 = FirebaseDatabase.getInstance().getReference("groups").child("ghat_rides").child("partnerride1");
+//                databaseReference1.addValueEventListener(new ValueEventListener() {
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        if (dataSnapshot.exists()){
+//                            Long noofpeople = dataSnapshot.getChildrenCount();
+//
+//                            if (noofpeople%2==0){
+//                                for(DataSnapshot datas: dataSnapshot.getChildren()) {
+//                                    Object value = datas.getValue();
+//                                    rideNames.add(value.toString());
+//
+//                                    itemCount = rideNames.size();
+//
+//
+//                                }
+//                                    for (int i = 1; i < itemCount; i=i+2)
+//                                    {
+//                                        if(rideNames.get(i-1).contains(displayname)|| rideNames.get(i).contains(displayname)){
+//                                            startActivity(new Intent(UserStatus.this, Partner_Chat.class));
+//                                        }
+//                                        else {
+//                                            Log.w("you","not happening");
+//                                        }
+//
+//                                    }
+//
+//
+//                            }
+//                            else {
+//                                Toast.makeText(UserStatus.this, "Wait for partner", Toast.LENGTH_SHORT).show();
+//
+//                            }
+//
+//                        }
+//
+//
+//                    }
+//
+//                    public void onCancelled(DatabaseError databaseError) { }
+//                });
+//
+//
+//
+//
+//
+//
+//            }
+//        });
+
+
+
     }
 
 

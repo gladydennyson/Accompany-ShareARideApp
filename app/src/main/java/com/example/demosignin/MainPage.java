@@ -106,6 +106,8 @@ public class MainPage extends AppCompatActivity implements LocationListener {
                                 }
                                 else{
                                     userdistance = false;
+
+
                                 }
                                 number.setText(String.valueOf(distanceInMeters));
                             }
@@ -189,7 +191,7 @@ public class MainPage extends AppCompatActivity implements LocationListener {
                                         startActivity(new Intent(MainPage.this, UserStatus.class));
                                     }
                                     //if not, as of now do nothing, go to the userstatus page,
-                                    // here we have to tell thst distance is more than 2km
+                                    // here we have to tell that distance is more than 2km
                                     else {
                                         Log.w("status", "did not set");
                                         startActivity(new Intent(MainPage.this, UserStatus.class));

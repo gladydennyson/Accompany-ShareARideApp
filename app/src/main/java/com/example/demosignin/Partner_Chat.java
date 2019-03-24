@@ -99,6 +99,4 @@ public class Partner_Chat extends AppCompatActivity {
         Log.w("End of disp","hrrfhr");
     }
 
-
-
 }
