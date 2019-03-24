@@ -2,7 +2,9 @@ package com.example.demosignin;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -44,7 +47,7 @@ public class UserStatus extends AppCompatActivity {
     ArrayList<String> al = new ArrayList<>();
     ArrayList<String> ride = new ArrayList<>();
     ArrayList<String> rideNames = new ArrayList<>();
-    public DatabaseReference databaseReference1,databaseReference2;
+    public DatabaseReference databaseReference1,databaseReference2, partnerchat;
     public int itemCount;
 
     public int dbid_counter;
@@ -133,7 +136,90 @@ public class UserStatus extends AppCompatActivity {
                         if(userID%2==1){
                             Log.w("odd user!",user);
 
+                            Thread t = new Thread(){
+                                @Override
+                                public void run(){
+                                    while (!isInterrupted()){
+                                        try{
+                                            Thread.sleep(3000);
+
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+
+                                                    final Query nextuser = databaseReference2.orderByChild("userID").equalTo(userID+1);
+
+                                                    nextuser.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                            if (dataSnapshot.exists()){
+                                                                Log.w("next user present","show");
+                                                            }
+                                                            else{
+                                                                Log.w("user not present","show");
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                        }
+                                                    });
+
+                                                }
+                                            });
+
+                                        } catch (InterruptedException e){
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+                                }
+                            };
+                            t.start();
+
+
+
+
+
+
+
+
+
                         }
+
+                        else{
+                            Log.w("even user!",user);
+
+                  partnerchat = FirebaseDatabase.getInstance().getReference("groups").child("Ghat").child("partnerchat"+userID);
+
+                  partnerchat.addListenerForSingleValueEvent(new ValueEventListener() {
+                      @Override
+                      public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                          partnerchat.push().setValue(new Partner_Chat_Message(displayname+"has joined",
+                                  FirebaseAuth.getInstance()
+                                          .getCurrentUser()
+                                          .getDisplayName()));
+
+                      }
+
+                      @Override
+                      public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                      }
+                  });
+
+
+
+                            Intent myIntent = new Intent(UserStatus.this, Partner_Chat.class);
+                            myIntent.putExtra("user id", userID);
+                            startActivity(myIntent);
+
+
+
+                        }
+
                     }
                     public void onCancelled(DatabaseError databaseError) { }
                 });

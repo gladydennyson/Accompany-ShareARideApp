@@ -28,11 +28,15 @@ public class Partner_Chat extends AppCompatActivity {
     private int SIGN_IN_REQUEST_CODE=10;
     private FirebaseListAdapter<Partner_Chat_Message> adapter;
     private DatabaseReference mFirebaseDatabaseReference;
-
+    public int takenuserid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.partner_chat);
+
+        Intent mIntent = getIntent();
+        takenuserid = mIntent.getIntExtra("user id", 0);
+        Log.d("partnerpage", "uder id: " + takenuserid);
 
         FloatingActionButton fab =
                 (FloatingActionButton)findViewById(R.id.fab);
@@ -47,8 +51,8 @@ public class Partner_Chat extends AppCompatActivity {
                 FirebaseDatabase.getInstance()
                         .getReference()
                         .child("groups")
-                        .child("ghat_rides")
-                        .child("partnerridechats")
+                        .child("Ghat")
+                        .child("partnerchat"+takenuserid)
                         .push()
                         .setValue(new Partner_Chat_Message(input.getText().toString(),
                                 FirebaseAuth.getInstance()
@@ -74,7 +78,7 @@ public class Partner_Chat extends AppCompatActivity {
 
     private void displayChatMessages() {
         ListView listOfMessages = (ListView)findViewById(R.id.list_of_messages);
-        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference().child("groups").child("ghat_rides").child("partnerridechats");
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference().child("groups").child("Ghat").child("partnerchat"+takenuserid);
         Log.w("This is ref",mFirebaseDatabaseReference.toString());
         adapter = new FirebaseListAdapter<Partner_Chat_Message>(this, Partner_Chat_Message.class,
                 R.layout.messages, mFirebaseDatabaseReference) {
