@@ -157,6 +157,7 @@ public class UserStatus extends AppCompatActivity {
                                                                 Intent myIntent = new Intent(UserStatus.this, Partner_Chat.class);
                                                                 myIntent.putExtra("user id", userID+1);
                                                                 startActivity(myIntent);
+                                                                Thread.interrupted();
                                                             }
                                                             else{
                                                                 Log.w("user not present","show");
