@@ -37,6 +37,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import static java.lang.Thread.interrupted;
+
 //This page is to show the online users
 public class UserStatus extends AppCompatActivity {
 
@@ -139,7 +142,8 @@ public class UserStatus extends AppCompatActivity {
                             Thread t = new Thread(){
                                 @Override
                                 public void run(){
-                                    while (!isInterrupted()){
+                                    while (!isInterrupted())
+                                    {
                                         try{
                                             Thread.sleep(3000);
 
@@ -153,11 +157,12 @@ public class UserStatus extends AppCompatActivity {
                                                         @Override
                                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                             if (dataSnapshot.exists()){
+
                                                                 Log.w("next user present","show");
                                                                 Intent myIntent = new Intent(UserStatus.this, Partner_Chat.class);
                                                                 myIntent.putExtra("user id", userID+1);
                                                                 startActivity(myIntent);
-                                                                Thread.interrupted();
+
                                                             }
                                                             else{
                                                                 Log.w("user not present","show");
