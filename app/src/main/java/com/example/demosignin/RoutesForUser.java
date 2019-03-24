@@ -153,7 +153,7 @@ public class RoutesForUser extends FragmentActivity implements OnMapReadyCallbac
         //mode for direction
         String sensor= "sensor=false";
         String mode = "mode=driving";
-        String key = "key=AIzaSyCeHykquMYRghNgCnQp0foY0JHLZ9y0psg";
+        String key = "key=yourkey";
         String param = str_org+"&"+str_dest+"&"+sensor+"&"+mode+"&"+key;
         String output = "json";
         String url ="https://maps.googleapis.com/maps/api/directions/"+output+"?"+param;

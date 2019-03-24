@@ -5,52 +5,178 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.demosignin.MainPage"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/number"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="" />
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/themecolor"
+        android:elevation="4dp"
+        android:gravity="center">
 
-    <Button
-        android:id="@+id/ghat"
+        <TextView
+            android:text="Accompany"
+            android:textAlignment="center"
+            android:fontFamily="@font/rounded"
+            android:textSize="25dp"
+            android:textColor="#ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ghstkopar-Kurla" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:context="com.example.demosignin.MainPage">
 
-    <Button
-        android:id="@+id/getLocationBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="get Location" />
+        <TextView
+            android:id="@+id/number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="" />
 
-    <Button
-        android:id="@+id/getmap"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="goto map" />
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view1"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            card_view:cardCornerRadius="4dp">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                tools:context="com.example.demosignin.MainPage">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/info_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/rounded"
+                        android:paddingBottom="10dp"
+                        android:text="Ghatkopar to kurla"
+                        android:textAlignment="center"
+                        android:textColor="@color/themecolor"
+                        android:textSize="20dp" />
+
+                    <ImageView
+                        android:layout_width="79dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/destination" />
+                </LinearLayout>
+                <Button
+                    android:id="@+id/ghat"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/mybutton"
+                    android:text="Join"
+                    android:fontFamily="@font/rounded"
+                    android:textSize="20dp"
+                    android:textColor="#ffffff"
+                    android:textAllCaps="false"
+                    />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view2"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                tools:context="com.example.demosignin.MainPage">
 
 
-    <TextView
-        android:id="@+id/locationText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="" />
-    <TextView
-        android:id="@+id/destlocationtext"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="" />
+                <Button
+                    android:id="@+id/getLocationBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Get Location"
+                    android:background="@drawable/mybutton"
+                    android:fontFamily="@font/rounded"
+                    android:textSize="20dp"
+                    android:textColor="#ffffff"
+                    android:textAllCaps="false"/>
 
-    <TextView
-        android:id="@+id/distance"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view3"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                tools:context="com.example.demosignin.MainPage">
 
 
+                <Button
+                    android:id="@+id/getmap"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Go to map"
+                    android:fontFamily="@font/rounded"
+                    android:textSize="20dp"
+                    android:background="@drawable/mybutton"
+                    android:textColor="#ffffff"
+                    android:textAllCaps="false"/>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+
+
+
+
+
+        <TextView
+            android:id="@+id/locationText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/destlocationtext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/distance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+    </LinearLayout>
 
 </LinearLayout>
 
