@@ -154,9 +154,13 @@ public class UserStatus extends AppCompatActivity {
                                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                             if (dataSnapshot.exists()){
                                                                 Log.w("next user present","show");
+                                                                Intent myIntent = new Intent(UserStatus.this, Partner_Chat.class);
+                                                                myIntent.putExtra("user id", userID+1);
+                                                                startActivity(myIntent);
                                                             }
                                                             else{
                                                                 Log.w("user not present","show");
+                                                                Toast.makeText(UserStatus.this,"User not present",Toast.LENGTH_SHORT).show();
                                                             }
                                                         }
 
@@ -177,12 +181,6 @@ public class UserStatus extends AppCompatActivity {
                                 }
                             };
                             t.start();
-
-
-
-
-
-
 
 
 
