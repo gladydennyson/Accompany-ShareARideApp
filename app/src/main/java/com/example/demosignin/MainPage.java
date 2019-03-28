@@ -14,6 +14,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,6 +80,10 @@ public class MainPage extends AppCompatActivity implements LocationListener {
         number = (TextView)findViewById(R.id.number);
 
 
+
+        final Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+
+
         Thread t = new Thread(){
             @Override
             public void run(){
@@ -129,6 +135,8 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
         }
 
+        Auth = FirebaseAuth.getInstance();
+        name = Auth.getCurrentUser().getDisplayName();
         // add button listener
         ghatButton.setOnClickListener(new View.OnClickListener() {
 
@@ -139,16 +147,10 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
 
 
-
                 // custom dialog
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.custom);
-                dialog.setTitle("Title...");
-
-                // set the custom dialog components - text, image and button
-                TextView text = (TextView) dialog.findViewById(R.id.text);
-                text.setText("Android custom dialog example!");
-
+                dialog.setTitle("Hello "+name);
 
                 Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
                 Button gochatroom = (Button) dialog.findViewById(R.id.gochatroom);
@@ -168,8 +170,7 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
                         final String status = "online";
 
-                        Auth = FirebaseAuth.getInstance();
-                        name = Auth.getCurrentUser().getDisplayName();
+
 //
 //                        startActivity(myIntent);
                         // startActivity(new Intent(MainPage.this, UserStatus.class));
@@ -292,8 +293,10 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
 
         getLocation.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+                getLocation.startAnimation(shake);
 
                 LatLng dest = new LatLng(19.0868058,72.9058244);
                 destlocationtext.setText("Ghatkopar Latitude: " + dest.latitude + "\n Ghatkopar Longitude: " + dest.longitude);
@@ -354,7 +357,7 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
     @Override
     public void onProviderDisabled(String provider) {
-        Toast.makeText(MainPage.this, "Please Enable GPS and Internet", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MainPage.this, "Please Enable GPS and Internet", Toast.LENGTH_SHORT).show();
     }
 
     @Override

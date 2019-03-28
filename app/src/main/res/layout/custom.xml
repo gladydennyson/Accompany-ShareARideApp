@@ -3,33 +3,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.demosignin.Register"
+    tools:context="com.example.demosignin.MainPage"
     android:orientation="vertical"
     android:gravity="center">
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-         />
+
     <Button
         android:id="@+id/dialogButtonOK"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Close" />
+        android:background="@drawable/mybutton"
+        android:text="Close"
+        android:fontFamily="@font/rounded"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"/>
 
     <Button
+        android:layout_marginTop="10dp"
         android:id="@+id/gochatroom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="go to chatroom" />
+        android:background="@drawable/mybutton"
+        android:text="Go to chatroom"
+        android:fontFamily="@font/rounded"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"/>
 
     <Button
+        android:layout_marginTop="10dp"
         android:id="@+id/joingroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="go to group" />
+        android:background="@drawable/mybutton"
+        android:text="Go to group"
+        android:fontFamily="@font/rounded"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"/>
 
 
 </LinearLayout>

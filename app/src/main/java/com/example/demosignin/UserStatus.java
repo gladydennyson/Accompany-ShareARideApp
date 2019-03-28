@@ -57,6 +57,8 @@ public class UserStatus extends AppCompatActivity {
     public int userID;
 
     public String displayname;
+    public static boolean stopThread =false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +106,8 @@ public class UserStatus extends AppCompatActivity {
 
         findpartner.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                stopThread = false;
                 auth = FirebaseAuth.getInstance();
                 final FirebaseUser userf = auth.getCurrentUser();
                  displayname = userf.getDisplayName();
@@ -142,7 +146,7 @@ public class UserStatus extends AppCompatActivity {
                             Thread t = new Thread(){
                                 @Override
                                 public void run(){
-                                    while (!isInterrupted())
+                                    while (!stopThread)
                                     {
                                         try{
                                             Thread.sleep(3000);
@@ -158,10 +162,12 @@ public class UserStatus extends AppCompatActivity {
                                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                             if (dataSnapshot.exists()){
 
+                                                                stopThread=true;
                                                                 Log.w("next user present","show");
                                                                 Intent myIntent = new Intent(UserStatus.this, Partner_Chat.class);
                                                                 myIntent.putExtra("user id", userID+1);
                                                                 startActivity(myIntent);
+
 
                                                             }
                                                             else{
@@ -175,18 +181,20 @@ public class UserStatus extends AppCompatActivity {
 
                                                         }
                                                     });
-
                                                 }
                                             });
 
                                         } catch (InterruptedException e){
+                                            Thread.currentThread().interrupt();
                                             e.printStackTrace();
+                                            Log.e("print",e.toString());
                                         }
 
                                     }
                                 }
                             };
                             t.start();
+
 
 
 
