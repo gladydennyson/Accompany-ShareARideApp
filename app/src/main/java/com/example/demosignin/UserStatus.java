@@ -58,6 +58,7 @@ public class UserStatus extends AppCompatActivity {
 
     public String displayname;
     public static boolean stopThread =false;
+    public String key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +136,7 @@ public class UserStatus extends AppCompatActivity {
 
 
 
-                        String key = databaseReference2.push().getKey();
+                         key = databaseReference2.push().getKey();
                         databaseReference2.child(key).child("name").setValue(displayname);
                         databaseReference2.child(key).child("userID").setValue(userID);
 
@@ -166,6 +167,7 @@ public class UserStatus extends AppCompatActivity {
                                                                 Log.w("next user present","show");
                                                                 Intent myIntent = new Intent(UserStatus.this, Partner_Chat.class);
                                                                 myIntent.putExtra("user id", userID+1);
+                                                                myIntent.putExtra("user push key",key);
                                                                 startActivity(myIntent);
 
 
@@ -226,6 +228,8 @@ public class UserStatus extends AppCompatActivity {
 
                             Intent myIntent = new Intent(UserStatus.this, Partner_Chat.class);
                             myIntent.putExtra("user id", userID);
+                            myIntent.putExtra("user push key",key);
+
                             startActivity(myIntent);
 
 

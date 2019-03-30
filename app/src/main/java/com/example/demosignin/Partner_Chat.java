@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,26 +21,37 @@ import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class Partner_Chat extends AppCompatActivity {
 
     private int SIGN_IN_REQUEST_CODE=10;
     private FirebaseListAdapter<Partner_Chat_Message> adapter;
     private DatabaseReference mFirebaseDatabaseReference;
-    public int takenuserid;
+    public int takenuserid,currentuser;
+    public String userkey;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.partner_chat);
 
-        Intent mIntent = getIntent();
+        final Intent mIntent = getIntent();
         takenuserid = mIntent.getIntExtra("user id", 0);
+
+        userkey = mIntent.getStringExtra("user push key");
+        //Log.w("key",userkey);
+
         Log.d("partnerpage", "uder id: " + takenuserid);
 
         FloatingActionButton fab =
                 (FloatingActionButton)findViewById(R.id.fab);
+        FloatingActionButton leavegroup =
+                (FloatingActionButton) findViewById(R.id.leavechatroom);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +84,57 @@ public class Partner_Chat extends AppCompatActivity {
                 input.setText("");
             }
         });
+        leavegroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference().child("groups").child("Ghat").child(userkey);
+                final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("groups").child("Ghat").child("partnerchat"+takenuserid);
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()){
+                            ref1.removeValue();
+                            Intent myIntent = new Intent(Partner_Chat.this, UserStatus.class);
+                            startActivity(myIntent);
 
+                            ref.removeValue();
+
+                        }
+                        else{
+                            ref1.removeValue();
+                            Intent myIntent = new Intent(Partner_Chat.this, UserStatus.class);
+                            startActivity(myIntent);
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+
+
+//                final Query uservalue = ref2.orderByChild("userID").equalTo(currentuser);
+//                 uservalue.addListenerForSingleValueEvent(new ValueEventListener() {
+//                     @Override
+//                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                         for (DataSnapshot child: dataSnapshot.getChildren()) {
+//                             child.getRef().removeValue();
+//                         }
+//
+//                     }
+//
+//                     @Override
+//                     public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                     }
+//                 });
+
+                }
+        });
        displayChatMessages();
     }
 
