@@ -106,9 +106,18 @@ public class UserStatus extends AppCompatActivity implements LocationListener {
 
 
         Thread t = new Thread(){
+
+            private volatile boolean flag = true;
+
+            //This method will set flag as false
+
+            public void stopRunning()
+            {
+                flag = false;
+            }
             @Override
             public void run(){
-                while (!stopthread){
+                while (flag){
                     try{
                         Thread.sleep(1000);
 
@@ -131,15 +140,13 @@ public class UserStatus extends AppCompatActivity implements LocationListener {
                                 float distanceInMeters = loc1.distanceTo(loc2);
                                 if(distanceInMeters<=5000){
                                     userdistance = true;
-                                    stopthread= true;
-                                    findpartner();
+                                    Log.w("i AM CLICKED","done");
+                                   stopRunning();
+
+                                    // findpartner();
 
                                 }
-                                else{
-                                    userdistance = false;
 
-
-                                }
                                 distancenumber.setText(String.valueOf(distanceInMeters));
 
                             }
