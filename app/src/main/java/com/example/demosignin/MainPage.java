@@ -118,7 +118,7 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
 
                                 }
-                               // number.setText(String.valueOf(distanceInMeters));
+                                number.setText(String.valueOf(distanceInMeters));
 
                             }
                         });
@@ -146,185 +146,60 @@ public class MainPage extends AppCompatActivity implements LocationListener {
             @Override
             public void onClick(View arg0) {
 
+                if (userdistance == true) {
 
 
-
-
-                // custom dialog
-                final Dialog dialog = new Dialog(context);
-                dialog.setContentView(R.layout.custom);
-                dialog.setTitle("Hello "+name);
-
-                Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-                Button gochatroom = (Button) dialog.findViewById(R.id.gochatroom);
-                Button joingroup = (Button)dialog.findViewById(R.id.joingroup);
-               // startActivity(new Intent(ProfileActivity.this, Login.class));
-
-                joingroup.setOnClickListener(new View.OnClickListener() {
-
-
-
-
-                    @Override
-                    public void onClick(View v) {
-
-                    if (userdistance== true)
-                    {
-
-                        final String status = "online";
+                            final String status = "online";
 
 
 //
 //                        startActivity(myIntent);
-                        // startActivity(new Intent(MainPage.this, UserStatus.class));
+                            // startActivity(new Intent(MainPage.this, UserStatus.class));
 
 
-                        final Firebase reference = new Firebase("https://costoptimized.firebaseio.com/users");
-                        reference.child(name).child("status").addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot snapshot) {
-
-                                if (snapshot.getValue() != null) {
-                                    statusget = snapshot.getValue().toString();
-                                    Log.w("status of user", statusget);
-
-                                    //setting to online only if it is offline
-                                    if (snapshot.getValue().equals("offline")) {
-                                        Log.w("hello", "helo");
-                                        reference.child(name).child("status").setValue(status);
-                                        startActivity(new Intent(MainPage.this, UserStatus.class));
-                                    }
-                                    //if not, as of now do nothing, go to the userstatus page,
-                                    // here we have to tell that distance is more than 2km
-                                    else {
-                                        Log.w("status", "did not set");
-                                        startActivity(new Intent(MainPage.this, UserStatus.class));
-                                    }
-
-                                } else {
-                                    Log.w("TAG", " it's null.");
-                                }
-
-                            }
-
-                            @Override
-                            public void onCancelled(FirebaseError firebaseError) {
-                                Log.e("onCancelled", " cancelled");
-                            }
-                        });
-
-
-                    }
-                    else{
-                            dialog.dismiss();
-                        }
-
-                    }
-                });
-                // if button is clicked, close the custom dialog
-                dialogButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-
-
-                gochatroom.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Auth= FirebaseAuth.getInstance();
-                        final FirebaseUser userf = Auth.getCurrentUser();
-                        final String displayname = userf.getDisplayName();
-                        Log.w("display name", displayname);
-                        if(userf!=null)
-                        {
-                            String url = "https://costoptimized.firebaseio.com/users.json";
-                            final ProgressDialog pd = new ProgressDialog(MainPage.this);
-                            pd.setMessage("Loading...");
-                            pd.show();
-
-                            StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                            final Firebase reference = new Firebase("https://costoptimized.firebaseio.com/users");
+                            reference.child(name).child("status").addValueEventListener(new ValueEventListener() {
                                 @Override
-                                public void onResponse(String s) {
-                                    if (s.equals("null")) {
-                                        Toast.makeText(MainPage.this, "user not found", Toast.LENGTH_LONG).show();
-                                    } else {
-                                        try {
-                                            JSONObject obj = new JSONObject(s);
+                                public void onDataChange(DataSnapshot snapshot) {
 
-                                            if (!obj.has(displayname)) {
-                                                Toast.makeText(MainPage.this, "inside user not found", Toast.LENGTH_LONG).show();
-                                            }  else {
-                                                UserDetails.username = displayname;
-                                                ///UserDetails.password = pass;
-                                                startActivity(new Intent(MainPage.this, Users.class));
-                                                //Toast.makeText(Login.this, "incorrect password", Toast.LENGTH_LONG).show();
-                                            }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
+                                    if (snapshot.getValue() != null) {
+                                        statusget = snapshot.getValue().toString();
+                                        Log.w("status of user", statusget);
+
+                                        //setting to online only if it is offline
+                                        if (snapshot.getValue().equals("offline")) {
+                                            Log.w("hello", "helo");
+                                            reference.child(name).child("status").setValue(status);
+                                            startActivity(new Intent(MainPage.this, UserStatus.class));
                                         }
+                                        //if not, as of now do nothing, go to the userstatus page,
+                                        // here we have to tell that distance is more than 2km
+                                        else {
+                                            Log.w("status", "did not set");
+                                            startActivity(new Intent(MainPage.this, UserStatus.class));
+                                        }
+
+                                    } else {
+                                        Log.w("TAG", " it's null.");
                                     }
 
-                                    pd.dismiss();
                                 }
-                            }, new Response.ErrorListener() {
+
                                 @Override
-                                public void onErrorResponse(VolleyError volleyError) {
-                                    System.out.println("" + volleyError);
-                                    pd.dismiss();
+                                public void onCancelled(FirebaseError firebaseError) {
+                                    Log.e("onCancelled", " cancelled");
                                 }
                             });
 
-                            RequestQueue rQueue = Volley.newRequestQueue(MainPage.this);
-                            rQueue.add(request);
-                            //startActivity(new Intent(MainPage.this, Login.class));
-                        }
-                        else{
-                            Log.w("User not logged in","bad");
-                        }
-                        //startActivity(new Intent(MainPage.this, Login.class));
-                    }
-                });
-
-
-
-             dialog.show();
-            }
-        });
-
-
-        getLocation.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                getLocation.startAnimation(shake);
-
-                LatLng dest = new LatLng(19.0868058,72.9058244);
-                destlocationtext.setText("Ghatkopar Latitude: " + dest.latitude + "\n Ghatkopar Longitude: " + dest.longitude);
-
-               getLocation();
-
-
-// get distance between two points
-                loc1 = new Location("");
-                loc1.setLatitude(currentLat);
-                loc1.setLongitude(currentLon);
-
-                loc2 = new Location("");
-                loc2.setLatitude(dest.latitude);
-                loc2.setLongitude(dest.longitude);
-
-
-                float distanceInMeters = loc1.distanceTo(loc2);
-                distance.setText("Distance: " + distanceInMeters);
-
 
 
 
             }
+            }
         });
+
+
+
         gotomap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -342,8 +217,7 @@ public class MainPage extends AppCompatActivity implements LocationListener {
         try {
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 5, (LocationListener) this);
-            spinner.setVisibility(View.GONE);
-            gettingloc.setVisibility(View.GONE);
+
         }
         catch(SecurityException e) {
             e.printStackTrace();
@@ -356,7 +230,8 @@ public class MainPage extends AppCompatActivity implements LocationListener {
         locationText.setText("Latitude: " + location.getLatitude() + "\n Longitude: " + location.getLongitude());
         currentLat = location.getLatitude();
         currentLon = location.getLongitude();
-
+        spinner.setVisibility(View.GONE);
+        gettingloc.setVisibility(View.GONE);
     }
 
     @Override

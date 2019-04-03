@@ -35,11 +35,6 @@
         tools:context="com.example.demosignin.MainPage">
 
         <TextView
-            android:id="@+id/number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="" />
-        <TextView
             android:id="@+id/getingloctext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,6 +62,8 @@
                 android:orientation="vertical"
                 tools:context="com.example.demosignin.MainPage">
 
+
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -91,6 +88,17 @@
                         android:layout_height="50dp"
                         android:src="@drawable/destination" />
                 </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Distance: " />
+                <TextView
+                    android:id="@+id/number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="" />
 
                 <Button
                     android:id="@+id/ghat"
@@ -117,6 +125,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="100dp">
+
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/authui_colorAccent"></View>
 
 
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -155,6 +169,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:orientation="horizontal">
+
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/authui_colorAccent"></View>
 
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:tools="http://schemas.android.com/tools"
