@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,8 +64,8 @@ public class MainPage extends AppCompatActivity implements LocationListener {
     Location loc1, loc2;
     boolean userdistance = false;
     int count = 0;
-
-
+    public ProgressBar spinner;
+    TextView gettingloc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +79,8 @@ public class MainPage extends AppCompatActivity implements LocationListener {
         distance = (TextView)findViewById(R.id.distance);
         gotomap = (Button)findViewById(R.id.getmap);
         number = (TextView)findViewById(R.id.number);
-
+        spinner = (ProgressBar)findViewById(R.id.location_progress);
+        gettingloc = (TextView)findViewById(R.id.getingloctext);
 
 
         final Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
@@ -94,6 +96,7 @@ public class MainPage extends AppCompatActivity implements LocationListener {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+
 //                                count++;
                                 LatLng dest = new LatLng(19.0868058,72.9058244);
                                 getLocation();
@@ -115,7 +118,8 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
 
                                 }
-                                number.setText(String.valueOf(distanceInMeters));
+                               // number.setText(String.valueOf(distanceInMeters));
+
                             }
                         });
 
@@ -130,7 +134,6 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
             ActivityCompat.requestPermissions(MainPage.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
 
         }
@@ -339,7 +342,8 @@ public class MainPage extends AppCompatActivity implements LocationListener {
         try {
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 5, (LocationListener) this);
-
+            spinner.setVisibility(View.GONE);
+            gettingloc.setVisibility(View.GONE);
         }
         catch(SecurityException e) {
             e.printStackTrace();

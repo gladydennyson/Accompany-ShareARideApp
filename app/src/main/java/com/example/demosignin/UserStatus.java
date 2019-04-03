@@ -87,11 +87,11 @@ public class UserStatus extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 Long noofonline = dataSnapshot.getChildrenCount();
-                String vals = dataSnapshot.toString();
-                Log.w("values",dataSnapshot.toString());
-                al.add(vals);
-                usersList.setAdapter(new ArrayAdapter<String>(UserStatus.this, android.R.layout.simple_list_item_1, al));
-                usersList.setVisibility(View.VISIBLE);
+                //String vals = dataSnapshot.toString();
+               // Log.w("values",dataSnapshot.toString());
+               // al.add(vals);
+                //usersList.setAdapter (new ArrayAdapter<String>(UserStatus.this, android.R.layout.simple_list_item_1, al));
+                //usersList.setVisibility(View.VISIBLE);
                 noUsersText.setText("No of users online"+noofonline);
                 noUsersText.setVisibility(View.VISIBLE);
             }

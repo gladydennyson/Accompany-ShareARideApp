@@ -1,6 +1,8 @@
 package com.example.demosignin;
 
 import android.content.Intent;
+import android.location.Location;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,8 +36,10 @@ public class Partner_Chat extends AppCompatActivity {
     private int SIGN_IN_REQUEST_CODE=10;
     private FirebaseListAdapter<Partner_Chat_Message> adapter;
     private DatabaseReference mFirebaseDatabaseReference;
-    public int takenuserid,currentuser;
+    public int takenuserid,actualuserid;
     public String userkey;
+    public Boolean stopThread = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +57,12 @@ public class Partner_Chat extends AppCompatActivity {
                 (FloatingActionButton)findViewById(R.id.fab);
         FloatingActionButton leavegroup =
                 (FloatingActionButton) findViewById(R.id.leavechatroom);
+
+
+
+
+
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +98,9 @@ public class Partner_Chat extends AppCompatActivity {
         leavegroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 final DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference().child("groups").child("Ghat").child(userkey);
+                final DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference().child("groups").child("Ghat");
                 final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("groups").child("Ghat").child("partnerchat"+takenuserid);
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -98,6 +111,7 @@ public class Partner_Chat extends AppCompatActivity {
                             startActivity(myIntent);
 
                             ref.removeValue();
+                            ref2.child("leaveride"+takenuserid).setValue("true");
 
                         }
                         else{
@@ -164,5 +178,8 @@ public class Partner_Chat extends AppCompatActivity {
         listOfMessages.setAdapter(adapter);
         Log.w("End of disp","hrrfhr");
     }
+
+
+
 
 }
