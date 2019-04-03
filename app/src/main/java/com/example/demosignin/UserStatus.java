@@ -72,7 +72,7 @@ public class UserStatus extends AppCompatActivity implements LocationListener {
     public static boolean stopThread =false;
     public String key;
     ImageView onlineimage;
-
+    public Boolean stopthread= false;
 
     public double currentLat;
     public double currentLon;
@@ -108,7 +108,7 @@ public class UserStatus extends AppCompatActivity implements LocationListener {
         Thread t = new Thread(){
             @Override
             public void run(){
-                while (!isInterrupted()){
+                while (!stopthread){
                     try{
                         Thread.sleep(1000);
 
@@ -131,6 +131,8 @@ public class UserStatus extends AppCompatActivity implements LocationListener {
                                 float distanceInMeters = loc1.distanceTo(loc2);
                                 if(distanceInMeters<=5000){
                                     userdistance = true;
+                                    stopthread= true;
+                                    findpartner();
 
                                 }
                                 else{
@@ -198,18 +200,6 @@ public class UserStatus extends AppCompatActivity implements LocationListener {
 
 
 
-
-
-
-//        findpartner.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//
-//
-//
-//
-//
-//            }
-//        });
 
 
 
