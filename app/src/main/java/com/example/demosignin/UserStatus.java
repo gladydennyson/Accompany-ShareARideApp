@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,13 +60,14 @@ public class UserStatus extends AppCompatActivity {
     public String displayname;
     public static boolean stopThread =false;
     public String key;
-
+    ImageView onlineimage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_status);
         usersList = (ListView)findViewById(R.id.usersList);
         noUsersText = (TextView)findViewById(R.id.noUsersText);
+        onlineimage = (ImageView)findViewById(R.id.onlineimage);
         findpartner = (Button)findViewById(R.id.findpartner);
         //matchwithpartner = (Button)findViewById(R.id.matchwithpartner);
 
@@ -94,6 +96,8 @@ public class UserStatus extends AppCompatActivity {
                 //usersList.setVisibility(View.VISIBLE);
                 noUsersText.setText("No of users online"+noofonline);
                 noUsersText.setVisibility(View.VISIBLE);
+                onlineimage.setVisibility(View.VISIBLE);
+
             }
 
             public void onCancelled(DatabaseError databaseError) { }

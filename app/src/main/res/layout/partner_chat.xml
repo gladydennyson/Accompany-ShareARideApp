@@ -44,6 +44,7 @@
             android:layout_alignParentBottom="true"
             android:clickable="true"
             android:tint="@android:color/white"
+            android:src="@drawable/send"
             app:fabSize="mini" />
 
     <android.support.design.widget.FloatingActionButton
@@ -52,9 +53,13 @@
         android:layout_height="75dp"
         android:layout_above="@id/fab"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="26dp"
         android:clickable="true"
+        android:src="@drawable/exit"
+        android:text="Leave group"
         android:tint="@android:color/white"
-        android:text="Leave group"/>
+        app:fabSize="mini" />
 
 
 
