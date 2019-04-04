@@ -80,7 +80,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/rounded"
                         android:paddingBottom="10dp"
-                        android:text="Marol Naka to DBIT"
+                        android:text="Ghatkopar to DBIT"
                         android:textAlignment="center"
                         android:textColor="@color/themecolor"
                         android:textSize="25dp" />
