@@ -4,50 +4,152 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    >
+    android:layout_gravity="center">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/themecolor"
+        android:elevation="4dp"
+        android:gravity="center">
+
+        <TextView
+            android:text="Accompany"
+            android:textAlignment="center"
+            android:fontFamily="@font/rounded"
+            android:textSize="25dp"
+            android:textColor="#ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </android.support.v7.widget.Toolbar>
 <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:layout_gravity="center">
 
     <ImageView
         android:id="@+id/onlineimage"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:src="@drawable/online"
-        android:visibility="gone"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:visibility="visible"
+        />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="No users found!"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:id="@+id/noUsersText"
-        android:visibility="gone"
+        android:visibility="visible"
         />
 
 
 </LinearLayout>
 
-    <TextView
-        android:id="@+id/distancenumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <ListView
-        android:id="@+id/usersList"
+
+
+    <!--<ListView-->
+        <!--android:id="@+id/usersList"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="231dp" />-->
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="231dp" />
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="430dp"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:id="@+id/tickmark"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:src="@drawable/tickmark5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="43dp"
+                android:fontFamily="@font/rounded"
+                android:text="You've Entered the Group Chat!"
+                android:layout_gravity="center"
+                android:textColor="#35373a"
+                android:textSize="18dp" />
+
+            <ImageView
+                android:id="@+id/geolocation"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:src="@drawable/geo1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/rounded"
+                android:text="Your distance fromShare Ride Spot :-"
+                android:textColor="#35373a"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/distancenumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calculating.."
+                android:fontFamily="@font/rounded"
+                android:textSize="18dp"
+                android:textColor="#35373a"
+                android:layout_gravity="center"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:src="@drawable/partner2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="43dp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/rounded"
+                android:text="Finding a Partner"
+                android:textColor="#35373a"
+                android:textSize="18dp" />
+
+            <ImageView
+                android:layout_width="46dp"
+                android:layout_height="42dp"
+                android:layout_gravity="center"
+                android:src="@drawable/loading2" />
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="--"
+        android:layout_gravity="center"/>
 
     <Button
         android:id="@+id/findpartner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/mybutton"
-        android:text="Find me a partner"
         android:layout_gravity="center"
-        />
+        android:layout_marginTop="5dp"
+        android:background="#00000000"
+       >
 
-
-
+    </Button>
 
 </LinearLayout>
+

@@ -72,11 +72,10 @@ public class UserStatus extends AppCompatActivity implements LocationListener {
     public static boolean stopThread =false;
     public String key;
     ImageView onlineimage;
-    public Boolean stopthread= false;
 
     public double currentLat;
     public double currentLon;
-
+    boolean flag = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,17 +106,13 @@ public class UserStatus extends AppCompatActivity implements LocationListener {
 
         Thread t = new Thread(){
 
-            private volatile boolean flag = true;
+
 
             //This method will set flag as false
 
-            public void stopRunning()
-            {
-                flag = false;
-            }
             @Override
             public void run(){
-                while (flag){
+                while (!interrupted()){
                     try{
                         Thread.sleep(1000);
 
@@ -138,16 +133,17 @@ public class UserStatus extends AppCompatActivity implements LocationListener {
 
 
                                 float distanceInMeters = loc1.distanceTo(loc2);
+                                float distanceinkm= distanceInMeters/1000;
                                 if(distanceInMeters<=5000){
                                     userdistance = true;
-                                    Log.w("i AM CLICKED","done");
-                                   stopRunning();
+                         //           stopRunning();
+                                //    Log.w("i AM CLICKED" + flag,"done");
 
                                     // findpartner();
 
                                 }
 
-                                distancenumber.setText(String.valueOf(distanceInMeters));
+                                distancenumber.setText(String.valueOf(distanceinkm)+" kms");
 
                             }
                         });
@@ -162,6 +158,8 @@ public class UserStatus extends AppCompatActivity implements LocationListener {
         t.start();
 
 
+
+
         if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(UserStatus.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
 
@@ -169,13 +167,138 @@ public class UserStatus extends AppCompatActivity implements LocationListener {
 
 
 
+        findpartner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseReference1 = FirebaseDatabase.getInstance().getReference("groups").child("Ghat").child("dbid");
+                databaseReference2 = FirebaseDatabase.getInstance().getReference("groups").child("Ghat");
+
+
+                databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Long count = dataSnapshot.getChildrenCount();
+
+
+                        //Log.w("Db","Inserted");
+                        String value = dataSnapshot.getValue().toString();
+                        dbid_counter = Integer.parseInt(value);
+                        userID = dbid_counter;
+                        Log.w("reading",value);
+                        databaseReference1.setValue(dbid_counter+1);
+                        String user=String.valueOf(userID);
+                        Log.w("counter",user);
+
+
+
+                        key = databaseReference2.push().getKey();
+                        databaseReference2.child(key).child("name").setValue(displayname);
+                        databaseReference2.child(key).child("userID").setValue(userID);
+
+
+                        if(userID%2==1){
+                            Log.w("odd user!",user);
+
+                            Thread t = new Thread(){
+                                @Override
+                                public void run(){
+                                    while (!stopThread)
+                                    {
+                                        try{
+                                            Thread.sleep(3000);
+
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+
+                                                    final Query nextuser = databaseReference2.orderByChild("userID").equalTo(userID+1);
+
+                                                    nextuser.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                            if (dataSnapshot.exists()){
+
+                                                                stopThread=true;
+                                                                Log.w("next user present","show");
+                                                                Intent myIntent = new Intent(UserStatus.this, Partner_Chat.class);
+                                                                myIntent.putExtra("user id", userID+1);
+                                                                myIntent.putExtra("user push key",key);
+                                                                startActivity(myIntent);
+
+
+                                                            }
+                                                            else{
+                                                                Log.w("user not present","show");
+                                                                Toast.makeText(UserStatus.this,"User not present",Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                        }
+                                                    });
+                                                }
+                                            });
+
+                                        } catch (InterruptedException e){
+                                            Thread.currentThread().interrupt();
+                                            e.printStackTrace();
+                                            Log.e("print",e.toString());
+                                        }
+
+                                    }
+                                }
+                            };
+                            t.start();
 
 
 
 
+                        }
+
+                        else{
+                            Log.w("even user!",user);
+
+                            partnerchat = FirebaseDatabase.getInstance().getReference("groups").child("Ghat").child("partnerchat"+userID);
+
+                            partnerchat.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                    partnerchat.push().setValue(new Partner_Chat_Message(displayname+"has joined",
+                                            FirebaseAuth.getInstance()
+                                                    .getCurrentUser()
+                                                    .getDisplayName()));
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
 
 
 
+                            Intent myIntent = new Intent(UserStatus.this, Partner_Chat.class);
+                            myIntent.putExtra("user id", userID);
+                            myIntent.putExtra("user push key",key);
+
+                            startActivity(myIntent);
+
+
+
+                        }
+
+                    }
+                    public void onCancelled(DatabaseError databaseError) { }
+                });
+
+
+
+
+            }
+        });
 
 
         final Query query = reference.orderByChild("status").equalTo("online");
@@ -195,7 +318,7 @@ public class UserStatus extends AppCompatActivity implements LocationListener {
                // al.add(vals);
                 //usersList.setAdapter (new ArrayAdapter<String>(UserStatus.this, android.R.layout.simple_list_item_1, al));
                 //usersList.setVisibility(View.VISIBLE);
-                noUsersText.setText("No of users online"+noofonline);
+                noUsersText.setText(" " + noofonline + " active users");
                 noUsersText.setVisibility(View.VISIBLE);
                 onlineimage.setVisibility(View.VISIBLE);
 
@@ -305,133 +428,7 @@ public class UserStatus extends AppCompatActivity implements LocationListener {
     }
 
 
-        public void findpartner(){
-            databaseReference1 = FirebaseDatabase.getInstance().getReference("groups").child("Ghat").child("dbid");
-            databaseReference2 = FirebaseDatabase.getInstance().getReference("groups").child("Ghat");
-
-
-            databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Long count = dataSnapshot.getChildrenCount();
-
-
-                    //Log.w("Db","Inserted");
-                    String value = dataSnapshot.getValue().toString();
-                    dbid_counter = Integer.parseInt(value);
-                    userID = dbid_counter;
-                    Log.w("reading",value);
-                    databaseReference1.setValue(dbid_counter+1);
-                    String user=String.valueOf(userID);
-                    Log.w("counter",user);
-
-
-
-                    key = databaseReference2.push().getKey();
-                    databaseReference2.child(key).child("name").setValue(displayname);
-                    databaseReference2.child(key).child("userID").setValue(userID);
-
-
-                    if(userID%2==1){
-                        Log.w("odd user!",user);
-
-                        Thread t = new Thread(){
-                            @Override
-                            public void run(){
-                                while (!stopThread)
-                                {
-                                    try{
-                                        Thread.sleep(3000);
-
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-
-                                                final Query nextuser = databaseReference2.orderByChild("userID").equalTo(userID+1);
-
-                                                nextuser.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                        if (dataSnapshot.exists()){
-
-                                                            stopThread=true;
-                                                            Log.w("next user present","show");
-                                                            Intent myIntent = new Intent(UserStatus.this, Partner_Chat.class);
-                                                            myIntent.putExtra("user id", userID+1);
-                                                            myIntent.putExtra("user push key",key);
-                                                            startActivity(myIntent);
-
-
-                                                        }
-                                                        else{
-                                                            Log.w("user not present","show");
-                                                            Toast.makeText(UserStatus.this,"User not present",Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                                    }
-                                                });
-                                            }
-                                        });
-
-                                    } catch (InterruptedException e){
-                                        Thread.currentThread().interrupt();
-                                        e.printStackTrace();
-                                        Log.e("print",e.toString());
-                                    }
-
-                                }
-                            }
-                        };
-                        t.start();
-
-
-
-
-                    }
-
-                    else{
-                        Log.w("even user!",user);
-
-                        partnerchat = FirebaseDatabase.getInstance().getReference("groups").child("Ghat").child("partnerchat"+userID);
-
-                        partnerchat.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                partnerchat.push().setValue(new Partner_Chat_Message(displayname+"has joined",
-                                        FirebaseAuth.getInstance()
-                                                .getCurrentUser()
-                                                .getDisplayName()));
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
-
-
-
-                        Intent myIntent = new Intent(UserStatus.this, Partner_Chat.class);
-                        myIntent.putExtra("user id", userID);
-                        myIntent.putExtra("user push key",key);
-
-                        startActivity(myIntent);
-
-
-
-                    }
-
-                }
-                public void onCancelled(DatabaseError databaseError) { }
-            });
-
-
-
-
-        }
+//        public void findpartner(){
+//
+//        }
 }

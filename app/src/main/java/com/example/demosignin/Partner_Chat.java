@@ -107,7 +107,7 @@ public class Partner_Chat extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()){
                             ref1.removeValue();
-                            Intent myIntent = new Intent(Partner_Chat.this, UserStatus.class);
+                            Intent myIntent = new Intent(Partner_Chat.this, MainPage.class);
                             startActivity(myIntent);
 
                             ref.removeValue();
@@ -116,7 +116,7 @@ public class Partner_Chat extends AppCompatActivity {
                         }
                         else{
                             ref1.removeValue();
-                            Intent myIntent = new Intent(Partner_Chat.this, UserStatus.class);
+                            Intent myIntent = new Intent(Partner_Chat.this, MainPage.class);
                             startActivity(myIntent);
 
                         }

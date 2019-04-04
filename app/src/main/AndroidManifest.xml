@@ -39,7 +39,7 @@
         <activity android:name=".Users" />
         <activity android:name=".Chat" />
         <activity android:name=".MainPage" android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".UserStatus" />
+        <activity android:name=".UserStatus"  android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
 

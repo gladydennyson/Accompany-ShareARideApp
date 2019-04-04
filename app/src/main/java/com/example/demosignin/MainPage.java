@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,9 +53,10 @@ public class MainPage extends AppCompatActivity implements LocationListener {
     private Button ghatButton;
     private Button getLocation;
     private Button gotomap;
+    ImageButton sharerickshawspots;
 
-    TextView locationText;
-    TextView destlocationtext;
+   // TextView locationText;
+   // TextView destlocationtext;
     TextView distance;
     TextView number;
     LocationManager locationManager;
@@ -73,15 +75,15 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
 
         ghatButton = (Button) findViewById(R.id.ghat);
-        getLocation = (Button) findViewById(R.id.getLocationBtn) ;
-        locationText = (TextView)findViewById(R.id.locationText);
-        destlocationtext = (TextView)findViewById(R.id.destlocationtext);
+       // getLocation = (Button) findViewById(R.id.getLocationBtn) ;
+       // locationText = (TextView)findViewById(R.id.locationText);
+        //destlocationtext = (TextView)findViewById(R.id.destlocationtext);
         distance = (TextView)findViewById(R.id.distance);
-        gotomap = (Button)findViewById(R.id.getmap);
+       // gotomap = (Button)findViewById(R.id.getmap);
         number = (TextView)findViewById(R.id.number);
         spinner = (ProgressBar)findViewById(R.id.location_progress);
         gettingloc = (TextView)findViewById(R.id.getingloctext);
-
+      //  sharerickshawspots = (ImageButton)findViewById(R.id.sharerickshawspots);
 
         final Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
 
@@ -98,7 +100,7 @@ public class MainPage extends AppCompatActivity implements LocationListener {
                             public void run() {
 
 //                                count++;
-                                LatLng dest = new LatLng(19.0868058,72.9058244);
+                                LatLng dest = new LatLng(19.1233238,72.8842004);
                                 getLocation();
                                 loc1 = new Location("");
                                 loc1.setLatitude(currentLat);
@@ -110,6 +112,7 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
 
                                 float distanceInMeters = loc1.distanceTo(loc2);
+                                int distance_int = (int) distanceInMeters;
                                 if(distanceInMeters<=12000){
                                     userdistance = true;
                                 }
@@ -118,8 +121,13 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
 
                                 }
-                                number.setText(String.valueOf(distanceInMeters));
-
+                                if(distanceInMeters == 8220823.0)
+                                {
+                                number.setText("Distance: calculating..");
+                                }
+                                else{
+                                    number.setText(String.valueOf("Distance: " + distance_int + " meters"));
+                            }
                             }
                         });
 
@@ -200,17 +208,22 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
 
 
-        gotomap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainPage.this, RoutesForUser.class));
-            }
-        });
+//        gotomap.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(MainPage.this, RoutesForUser.class));
+//            }
+//        });
 
 
 
 
-
+//        sharerickshawspots.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
     }
 
     void getLocation() {
@@ -227,7 +240,7 @@ public class MainPage extends AppCompatActivity implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        locationText.setText("Latitude: " + location.getLatitude() + "\n Longitude: " + location.getLongitude());
+       // locationText.setText("Latitude: " + location.getLatitude() + "\n Longitude: " + location.getLongitude());
         currentLat = location.getLatitude();
         currentLon = location.getLongitude();
         spinner.setVisibility(View.GONE);
