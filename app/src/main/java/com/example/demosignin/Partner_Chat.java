@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,8 +39,9 @@ public class Partner_Chat extends AppCompatActivity {
     private FirebaseListAdapter<Partner_Chat_Message> adapter;
     private DatabaseReference mFirebaseDatabaseReference;
     public int takenuserid,actualuserid;
-    public String userkey;
+    public String userkey,displayname;
     public Boolean stopThread = false;
+    FirebaseUser userf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +156,9 @@ public class Partner_Chat extends AppCompatActivity {
     }
 
     private void displayChatMessages() {
+        userf = FirebaseAuth.getInstance().getCurrentUser();
+
+        displayname = userf.getDisplayName();
         ListView listOfMessages = (ListView)findViewById(R.id.list_of_messages);
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference().child("groups").child("Ghat").child("partnerchat"+takenuserid);
         Log.w("This is ref",mFirebaseDatabaseReference.toString());
@@ -161,13 +167,16 @@ public class Partner_Chat extends AppCompatActivity {
             @Override
             protected void populateView(View v, Partner_Chat_Message model, int position) {
                 // Get references to the views of message.xml
+                RelativeLayout relativeLayout = (RelativeLayout)v.findViewById(R.id.messagebg);
                 TextView messageText = (TextView)v.findViewById(R.id.message_text);
                 TextView messageUser = (TextView)v.findViewById(R.id.message_user);
                 TextView messageTime = (TextView)v.findViewById(R.id.message_time);
 
+
                 // Set their text
                 messageText.setText(model.getMessageText());
                 messageUser.setText(model.getMessageUser());
+                Log.w("dsplay",messageUser.toString());
 
                 // Format the date before showing it
                 messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",

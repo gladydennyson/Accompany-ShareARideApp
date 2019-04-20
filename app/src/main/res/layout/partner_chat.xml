@@ -4,8 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#9dc7f9"
-
     tools:context="com.example.demosignin.GroupChat">
     <ListView
         android:layout_width="match_parent"
