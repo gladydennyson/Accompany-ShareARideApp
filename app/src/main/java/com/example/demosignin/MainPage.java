@@ -203,7 +203,6 @@ public class MainPage extends AppCompatActivity {
 
                                 //setting to online only if it is offline
                                 if (snapshot.getValue().equals("offline")) {
-                                    Log.w("hello", "helo");
                                     reference.child(name).child("status").setValue(status);
                                     startActivity(new Intent(MainPage.this, UserStatus.class));
                                 }
@@ -225,8 +224,6 @@ public class MainPage extends AppCompatActivity {
                             Log.e("onCancelled", " cancelled");
                         }
                     });
-
-
 
 
                 }
