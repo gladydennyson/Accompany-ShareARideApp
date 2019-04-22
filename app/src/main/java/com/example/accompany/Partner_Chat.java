@@ -93,8 +93,7 @@ public class Partner_Chat extends AppCompatActivity {
 
                 final DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference().child("groups").child("Ghat").child(userkey);
                 final DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference().child("groups").child("Ghat");
-                final DatabaseReference ref3 = FirebaseDatabase.getInstance().getReference().child("users").child(displayname).child("status");
-                ref3.setValue("offline");
+
                 final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("groups").child("Ghat").child("partnerchat"+takenuserid);
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
