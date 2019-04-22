@@ -1,4 +1,4 @@
-package com.example.demosignin;
+package com.example.accompany;
 import android.Manifest;
 import android.app.Service;
 import android.content.Intent;
@@ -17,7 +17,7 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
-import com.example.demosignin.settings.Constants;
+import com.example.accompany.settings.Constants;
 
 
 /**

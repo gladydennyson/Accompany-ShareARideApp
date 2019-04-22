@@ -1,4 +1,4 @@
-package com.example.demosignin;
+package com.example.accompany;
 
 public class UserDetails {
     static String username = "";

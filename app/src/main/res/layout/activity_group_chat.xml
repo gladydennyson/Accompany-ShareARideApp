@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.example.demosignin.GroupChat">
+    tools:context="com.example.accompany.GroupChat">
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"

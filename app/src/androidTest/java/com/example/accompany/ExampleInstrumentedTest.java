@@ -1,4 +1,4 @@
-package com.example.demosignin;
+package com.example.accompany;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

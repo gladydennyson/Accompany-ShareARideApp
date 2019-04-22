@@ -1,4 +1,4 @@
-package com.example.demosignin.settings;
+package com.example.accompany.settings;
 
 
 public class Constants {

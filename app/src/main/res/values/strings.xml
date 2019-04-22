@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">demosignin</string>
+    <string name="app_name">accompany</string>
     <string name="title_activity_routes_for_user">Map</string>
     <string name="title_activity_group_chat">GroupChat</string>
     <string name="permission_rationale">Please grant location permission to start the service</string>
