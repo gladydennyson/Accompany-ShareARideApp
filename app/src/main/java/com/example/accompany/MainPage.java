@@ -23,10 +23,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -59,6 +61,7 @@ public class MainPage extends AppCompatActivity {
     TextView number;
     public double loc1lat,loc1long;
     private String name;
+    private ImageView profileimage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +72,13 @@ public class MainPage extends AppCompatActivity {
         number = (TextView)findViewById(R.id.number);
         ghatButton = (Button) findViewById(R.id.ghat);
         directtomap = (ImageButton) findViewById(R.id.directotmap);
-
+        profileimage = (ImageView)findViewById(R.id.profileimage);
         Log.w("error","i reached mainpage");
+
+        Auth = FirebaseAuth.getInstance();
+        String url  = Auth.getCurrentUser().getPhotoUrl().toString();
+
+        Glide.with(MainPage.this).load(url).into(profileimage);
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 new BroadcastReceiver() {
                     @Override

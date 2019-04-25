@@ -9,10 +9,12 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -153,7 +155,9 @@ public class Partner_Chat extends AppCompatActivity {
         userf = FirebaseAuth.getInstance().getCurrentUser();
 
         displayname = userf.getDisplayName();
-        ListView listOfMessages = (ListView)findViewById(R.id.list_of_messages);
+        //final String img_url = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString();
+
+                ListView listOfMessages = (ListView)findViewById(R.id.list_of_messages);
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference().child("groups").child("Ghat").child("partnerchat"+takenuserid);
         Log.w("This is ref",mFirebaseDatabaseReference.toString());
         adapter = new FirebaseListAdapter<Partner_Chat_Message>(this, Partner_Chat_Message.class,
@@ -165,8 +169,9 @@ public class Partner_Chat extends AppCompatActivity {
                 TextView messageText = (TextView)v.findViewById(R.id.message_text);
                 TextView messageUser = (TextView)v.findViewById(R.id.message_user);
                 TextView messageTime = (TextView)v.findViewById(R.id.message_time);
+               // ImageView profilepic = (ImageView)v.findViewById(R.id.profilepic);
 
-
+              //  Glide.with(Partner_Chat.this).load(img_url).into(profilepic);
                 // Set their text
                 messageText.setText(model.getMessageText());
                 messageUser.setText(model.getMessageUser());
