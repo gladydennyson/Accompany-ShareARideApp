@@ -92,7 +92,8 @@ public class Partner_Chat extends AppCompatActivity {
             public void onClick(View v) {
 
                 final DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference().child("groups").child("Ghat").child(userkey);
-                final DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference().child("groups").child("Ghat");
+                    final DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference().child("groups").child("Ghat");
+                    final DatabaseReference ref3 = FirebaseDatabase.getInstance().getReference().child("users").child("status");
 
                 final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("groups").child("Ghat").child("partnerchat"+takenuserid);
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -100,15 +101,18 @@ public class Partner_Chat extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()){
                             ref1.removeValue();
+                            //ref3.setValue("offline");
                             Intent myIntent = new Intent(Partner_Chat.this, MainPage.class);
                             startActivity(myIntent);
 
                             ref.removeValue();
                             ref2.child("leaveride"+takenuserid).setValue("true");
 
+
                         }
                         else{
                             ref1.removeValue();
+                            //ref3.setValue("offline");
                             Intent myIntent = new Intent(Partner_Chat.this, MainPage.class);
                             startActivity(myIntent);
 

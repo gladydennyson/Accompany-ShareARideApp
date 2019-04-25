@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +49,7 @@ public class MainPage extends AppCompatActivity {
 
     FirebaseAuth Auth;
     private Button ghatButton;
+    private ImageButton directtomap;
     private String statusget;
     private boolean mAlreadyStartedService = false;
     private TextView mMsgView;
@@ -57,6 +59,7 @@ public class MainPage extends AppCompatActivity {
     TextView number;
     public double loc1lat,loc1long;
     private String name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +68,7 @@ public class MainPage extends AppCompatActivity {
         spinner = (ProgressBar)findViewById(R.id.location_progress);
         number = (TextView)findViewById(R.id.number);
         ghatButton = (Button) findViewById(R.id.ghat);
+        directtomap = (ImageButton) findViewById(R.id.directotmap);
 
         Log.w("error","i reached mainpage");
         LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -101,7 +105,7 @@ public class MainPage extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                LatLng dest = new LatLng(19.0868109,72.9058244);
+                                LatLng dest = new LatLng(19.0868058,72.905819);
                                 loc2 = new Location("");
                                 loc2.setLatitude(dest.latitude);
                                 loc2.setLongitude(dest.longitude);
@@ -145,6 +149,21 @@ public class MainPage extends AppCompatActivity {
 
         Auth = FirebaseAuth.getInstance();
         name = Auth.getCurrentUser().getDisplayName();
+
+
+        directtomap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.w("src","latlng"+loc1.getLatitude());
+                Log.w("src","latlng"+loc1.getLongitude());
+                Log.w("dest","latlng"+loc2.getLatitude());
+                Log.w("dest","latlng"+loc2.getLongitude());
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr="+loc1.getLatitude()+","+loc2.getLongitude()+"&daddr="+loc2.getLatitude()+","+loc2.getLongitude()));
+                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                startActivity(intent);
+            }
+        });
+
 
         ghatButton.setOnClickListener(new View.OnClickListener() {
 
