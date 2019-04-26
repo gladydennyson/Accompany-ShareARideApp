@@ -39,6 +39,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.firebase.client.ValueEventListener;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainPage extends AppCompatActivity {
 
@@ -55,6 +58,7 @@ public class MainPage extends AppCompatActivity {
     private String statusget;
     private boolean mAlreadyStartedService = false;
     private TextView mMsgView;
+    private TextView gettinglocation;
     public ProgressBar spinner;
     boolean userdistance = false;
     public Location loc1, loc2;
@@ -62,23 +66,55 @@ public class MainPage extends AppCompatActivity {
     public double loc1lat,loc1long;
     private String name;
     private ImageView profileimage;
+    private TextView noofratings;
+    private int rateno;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainpage);
         mMsgView = (TextView) findViewById(R.id.locationText);
+        gettinglocation= (TextView) findViewById(R.id.getingloctext);
         spinner = (ProgressBar)findViewById(R.id.location_progress);
         number = (TextView)findViewById(R.id.number);
         ghatButton = (Button) findViewById(R.id.ghat);
         directtomap = (ImageButton) findViewById(R.id.directotmap);
         profileimage = (ImageView)findViewById(R.id.profileimage);
         Log.w("error","i reached mainpage");
-
+        noofratings = (TextView) findViewById(R.id.noofratings);
         Auth = FirebaseAuth.getInstance();
+        String displayname = Auth.getCurrentUser().getDisplayName();
         String url  = Auth.getCurrentUser().getPhotoUrl().toString();
 
+
+        //final Intent mIntent = getIntent();
+        //rateno = mIntent.getIntExtra("rating number", 0);
+
+
+
+
         Glide.with(MainPage.this).load(url).into(profileimage);
+
+        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(displayname).child("ratingnumber");
+
+        ref.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot) {
+                String datastr = dataSnapshot.getValue().toString();
+                rateno = Integer.parseInt(datastr);
+                noofratings.setText("Profile Rating: " + rateno + "/5");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 new BroadcastReceiver() {
                     @Override
@@ -95,7 +131,9 @@ public class MainPage extends AppCompatActivity {
                             loc1.setLatitude(loc1lat);
                             loc1.setLongitude(loc1long);
                             mMsgView.setText(getString(R.string.msg_location_service_started) + "\n Latitude : " + latitude + "\n Longitude: " + longitude);
+                            mMsgView.setVisibility(View.INVISIBLE);
                             spinner.setVisibility(View.GONE);
+                            gettinglocation.setText("Received Location");
                         }
                     }
                 }, new IntentFilter(LocationMonitoringService.ACTION_LOCATION_BROADCAST)

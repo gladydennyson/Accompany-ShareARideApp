@@ -40,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     SignInButton signInButton;
     String displayname,pass,status;
-
+    public int ratingnumber=0;
+    public int rating=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,6 +138,8 @@ public class MainActivity extends AppCompatActivity {
                                     if(s.equals("null")) {
                                         reference.child(displayname).child("password").setValue(pass);
                                         reference.child(displayname).child("status").setValue(status);
+                                        reference.child(displayname).child("ratingnumber").setValue(ratingnumber);
+                                        reference.child(displayname).child("rating").setValue(rating);
                                         Toast.makeText(MainActivity.this, "registration successful", Toast.LENGTH_LONG).show();
                                         Intent intent = new Intent(MainActivity.this, MainPage.class);
                                         startActivity(intent);
@@ -148,6 +151,8 @@ public class MainActivity extends AppCompatActivity {
                                             if (!obj.has(displayname)) {
                                                 reference.child(displayname).child("password").setValue(pass);
                                                 reference.child(displayname).child("status").setValue(status);
+                                                reference.child(displayname).child("ratingnumber").setValue(ratingnumber);
+                                                reference.child(displayname).child("rating").setValue(rating);
                                                 Toast.makeText(MainActivity.this, "registration successful", Toast.LENGTH_LONG).show();
                                                 Intent intent = new Intent(MainActivity.this, MainPage.class);
                                                 startActivity(intent);

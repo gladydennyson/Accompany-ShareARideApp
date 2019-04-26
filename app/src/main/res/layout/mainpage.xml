@@ -32,11 +32,13 @@
             />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/profileimage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="150dp"
+            android:id="@+id/profileimage"
+
            />
+
     </LinearLayout>
     </android.support.v7.widget.Toolbar>
 
@@ -46,14 +48,21 @@
         android:orientation="vertical"
         tools:context="com.example.accompany.MainPage">
 
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_marginLeft="100dp"
+            android:id="@+id/noofratings"
+            android:textColor="@color/themecolor"
+            android:textSize="20dp"/>
         <TextView
             android:id="@+id/getingloctext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/rounded"
-            android:text="Getting Location"
+            android:text="Receiving Location"
             android:textColor="@color/themecolor"
             android:textSize="20dp" />
 

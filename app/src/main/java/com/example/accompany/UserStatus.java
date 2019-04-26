@@ -62,7 +62,7 @@ public class UserStatus extends AppCompatActivity  {
     public Location loc1, loc2;
     boolean userdistance = false;
     public int dbid_counter;
-    public int userID;
+    public int userID,usernumber;
 
     public String displayname;
     public double loc1lat,loc1long;
@@ -172,6 +172,7 @@ public class UserStatus extends AppCompatActivity  {
                                             if(userID%2==1){
                                                 Log.w("odd user!",user);
 
+                                                usernumber = userID;
                                                 Thread t = new Thread(){
                                                     @Override
                                                     public void run(){
@@ -195,6 +196,8 @@ public class UserStatus extends AppCompatActivity  {
                                                                                     Log.w("msg4","running thread");
                                                                                     Log.w("next user present","show");
                                                                                     Intent myIntent = new Intent(UserStatus.this, Partner_Chat.class);
+
+                                                                                    myIntent.putExtra("user exact number",usernumber);
                                                                                     myIntent.putExtra("user id", userID+1);
                                                                                     myIntent.putExtra("user push key",key);
                                                                                     startActivity(myIntent);
@@ -202,6 +205,7 @@ public class UserStatus extends AppCompatActivity  {
 
                                                                                 }
                                                                                 else{
+
                                                                                     Log.w("msg5","running thread");
                                                                                     Log.w("user not present","show");
                                                                                     Toast.makeText(UserStatus.this,"User not present",Toast.LENGTH_SHORT).show();
@@ -236,6 +240,8 @@ public class UserStatus extends AppCompatActivity  {
                                                 Log.w("msg6","running thread");
                                                 Log.w("even user!",user);
 
+                                                usernumber = userID;
+
                                                 partnerchat = FirebaseDatabase.getInstance().getReference("groups").child("Ghat").child("partnerchat"+userID);
 
                                                 partnerchat.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -259,6 +265,7 @@ public class UserStatus extends AppCompatActivity  {
 
                                                 Intent myIntent = new Intent(UserStatus.this, Partner_Chat.class);
                                                 myIntent.putExtra("user id", userID);
+                                                myIntent.putExtra("user exact number",usernumber);
                                                 myIntent.putExtra("user push key",key);
 
                                                 startActivity(myIntent);

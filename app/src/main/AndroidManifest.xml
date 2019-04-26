@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name="com.example.accompany.GroupPage"></activity>
+        <activity android:name="com.example.accompany.RatingHandler"></activity>
         <activity android:name="com.example.accompany.GroupChat" />
         <activity android:name="com.example.accompany.Partner_Chat" />
         <activity android:name="com.example.accompany.MainActivity"

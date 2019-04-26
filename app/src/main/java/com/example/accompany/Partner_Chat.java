@@ -29,7 +29,7 @@ public class Partner_Chat extends AppCompatActivity {
     private int SIGN_IN_REQUEST_CODE=10;
     private FirebaseListAdapter<Partner_Chat_Message> adapter;
     private DatabaseReference mFirebaseDatabaseReference;
-    public int takenuserid,actualuserid;
+    public int takenuserid,usernumber;
     public String userkey,displayname;
     public Boolean stopThread = false;
     FirebaseUser userf;
@@ -41,9 +41,11 @@ public class Partner_Chat extends AppCompatActivity {
 
         final Intent mIntent = getIntent();
         takenuserid = mIntent.getIntExtra("user id", 0);
-
+        usernumber = mIntent.getIntExtra("user exact number", 0);
         userkey = mIntent.getStringExtra("user push key");
         //Log.w("key",userkey);
+
+        Log.w("User exact number","no"+usernumber);
 
         Log.d("partnerpage", "uder id: " + takenuserid);
 
@@ -93,7 +95,7 @@ public class Partner_Chat extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference().child("groups").child("Ghat").child(userkey);
+                //final DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference().child("groups").child("Ghat").child(userkey);
                     final DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference().child("groups").child("Ghat");
                     final DatabaseReference ref3 = FirebaseDatabase.getInstance().getReference().child("users").child("status");
 
@@ -102,9 +104,12 @@ public class Partner_Chat extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()){
-                            ref1.removeValue();
+                            //ref1.removeValue();
                             //ref3.setValue("offline");
-                            Intent myIntent = new Intent(Partner_Chat.this, MainPage.class);
+
+
+                            Intent myIntent = new Intent(Partner_Chat.this, RatingHandler.class);
+                            myIntent.putExtra("user idnumber",usernumber);
                             startActivity(myIntent);
 
                             ref.removeValue();
@@ -113,9 +118,10 @@ public class Partner_Chat extends AppCompatActivity {
 
                         }
                         else{
-                            ref1.removeValue();
+                            //ref1.removeValue();
                             //ref3.setValue("offline");
-                            Intent myIntent = new Intent(Partner_Chat.this, MainPage.class);
+                            Intent myIntent = new Intent(Partner_Chat.this, RatingHandler.class);
+                            myIntent.putExtra("user idnumber",usernumber);
                             startActivity(myIntent);
 
                         }
